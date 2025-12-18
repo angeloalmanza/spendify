@@ -2,6 +2,7 @@ import React from "react";
 import useTransactions from "./hook/useTransactions";
 import BalanceCard from "./components/BalanceCard";
 import TransactionForm from "./components/TransactionForm";
+import TransactionList from "./components/TransactionList";
 
 const App = () => {
   const { transactions, addTransaction, removeTransaction } = useTransactions();
@@ -11,6 +12,10 @@ const App = () => {
       <h1 className="text-4xl font-bold mb-4 text-center">Expense Tracker</h1>
       <BalanceCard transactions={transactions} />
       <TransactionForm addTransaction={addTransaction} />
+      <TransactionList
+        transactions={transactions}
+        removeTransaction={removeTransaction}
+      />
     </div>
   );
 };
