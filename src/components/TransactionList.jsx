@@ -1,5 +1,13 @@
 import { Trash2 } from "lucide-react";
 
+const categoryColors = {
+  Cibo: "bg-yellow-100 text-yellow-800",
+  Affitto: "bg-blue-100 text-blue-800",
+  Svago: "bg-pink-100 text-pink-800",
+  Stipendio: "bg-green-100 text-green-800",
+  Altro: "bg-gray-100 text-gray-800",
+};
+
 const TransactionList = ({ transactions, removeTransaction }) => {
   if (transactions.length === 0)
     return (
@@ -13,6 +21,7 @@ const TransactionList = ({ transactions, removeTransaction }) => {
           <tr className="text-left text-gray-600 border-b">
             <th className="p-2">Nome</th>
             <th className="p-2">Tipo</th>
+            <th className="p-2">Categoria</th>
             <th className="p-2 text-right">Importo</th>
             <th className="p-2 text-right">Azioni</th>
           </tr>
@@ -22,7 +31,6 @@ const TransactionList = ({ transactions, removeTransaction }) => {
           {transactions.map((t) => (
             <tr key={t.id} className="border-b last:border-none">
               <td className="p-2">{t.name}</td>
-
               <td className="p-2">
                 <span
                   className={`px-2 py-1 rounded-full text-xs font-medium ${
@@ -34,7 +42,15 @@ const TransactionList = ({ transactions, removeTransaction }) => {
                   {t.type === "income" ? "Entrata" : "Uscita"}
                 </span>
               </td>
-
+              <td className="p-2">
+                <span
+                  className={`px-2 py-1 rounded-full text-xs font-medium ${
+                    categoryColors[t.category]
+                  }`}
+                >
+                  {t.category}
+                </span>
+              </td>
               <td
                 className={`p-2 text-right font-medium ${
                   t.type === "income" ? "text-green-600" : "text-red-600"
@@ -42,7 +58,6 @@ const TransactionList = ({ transactions, removeTransaction }) => {
               >
                 € {t.amount}
               </td>
-
               <td className="p-2 text-right">
                 <button
                   onClick={() => removeTransaction(t.id)}
