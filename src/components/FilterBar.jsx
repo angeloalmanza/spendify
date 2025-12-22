@@ -4,7 +4,7 @@ const FilterBar = ({ filter, setFilter }) => {
       <button
         onClick={() => setFilter("all")}
         className={`px-4 py-2 rounded-lg transition cursor-pointer ${
-          filter === "all" ? "bg-blue-500 text-white" : "bg-gray-200"
+          filter === "all" ? "bg-blue-500 text-white" : "bg-gray-400"
         }`}
       >
         Tutte
@@ -12,7 +12,7 @@ const FilterBar = ({ filter, setFilter }) => {
       <button
         onClick={() => setFilter("income")}
         className={`px-4 py-2 rounded-lg transition cursor-pointer ${
-          filter === "income" ? "bg-green-500 text-white" : "bg-gray-200"
+          filter === "income" ? "bg-green-500 text-white" : "bg-gray-400"
         }`}
       >
         Entrate
@@ -20,7 +20,7 @@ const FilterBar = ({ filter, setFilter }) => {
       <button
         onClick={() => setFilter("expense")}
         className={`px-4 py-2 rounded-lg transition cursor-pointer ${
-          filter === "expense" ? "bg-red-500 text-white" : "bg-gray-200"
+          filter === "expense" ? "bg-red-500 text-white" : "bg-gray-400"
         }`}
       >
         Uscite
