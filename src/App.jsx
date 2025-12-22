@@ -5,6 +5,7 @@ import TransactionForm from "./components/TransactionForm";
 import TransactionList from "./components/TransactionList";
 import FilterBar from "./components/FilterBar";
 import SearchBar from "./components/SearchBar";
+import TransactionsChart from "./components/TransactionChart";
 
 const App = () => {
   const { transactions, addTransaction, removeTransaction } = useTransactions();
@@ -22,6 +23,7 @@ const App = () => {
     <div className="min-h-screen bg-gray-100 p-4">
       <h1 className="text-4xl font-bold mb-4 text-center">Expense Tracker</h1>
       <BalanceCard transactions={transactions} />
+      <TransactionsChart transactions={filteredTransactions} />
       <div className="flex flex-col md:flex-row md:items-end md:gap-4 mb-4">
         <SearchBar search={search} setSearch={setSearch} />
         <FilterBar filter={filter} setFilter={setFilter} />
