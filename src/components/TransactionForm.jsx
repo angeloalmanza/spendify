@@ -71,7 +71,7 @@ const TransactionForm = ({ addTransaction }) => {
 
       <button
         type="submit"
-        className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+        className="flex items-center gap-2 w-full md:w-auto bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 hover:scale-105 transition-transform duration-150 focus:outline-none focus:ring-2 focus:ring-blue-300"
       >
         <PlusCircle className="w-4 h-4" />
         Aggiungi

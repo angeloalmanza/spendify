@@ -29,7 +29,10 @@ const TransactionList = ({ transactions, openDeleteModal, onEdit }) => {
 
         <tbody>
           {transactions.map((t) => (
-            <tr key={t.id} className="border-b last:border-none">
+            <tr
+              key={t.id}
+              className="border-b last:border-none hover:bg-gray-50 transition-colors duration-200"
+            >
               <td className="p-2">{t.name}</td>
               <td className="p-2">
                 <span
@@ -44,31 +47,27 @@ const TransactionList = ({ transactions, openDeleteModal, onEdit }) => {
               </td>
               <td className="p-2">
                 <span
-                  className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    categoryColors[t.category]
-                  }`}
+                  className={`px-2 py-1 rounded-full text-xs font-medium ${categoryColors[t.category]}`}
                 >
                   {t.category}
                 </span>
               </td>
               <td
-                className={`p-2 text-right font-medium ${
-                  t.type === "income" ? "text-green-600" : "text-red-600"
-                }`}
+                className={`p-2 text-right font-medium ${t.type === "income" ? "text-green-600" : "text-red-600"}`}
               >
                 € {t.amount}
               </td>
               <td className="p-2 text-right">
                 <button
                   onClick={() => onEdit(t)}
-                  className="text-blue-500 hover:text-blue-700 transition mr-2"
+                  className="mr-2 text-blue-500 hover:text-blue-700 transition-colors duration-200"
                   title="Modifica"
                 >
                   <Edit3 className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => openDeleteModal(t.id)}
-                  className="text-red-500 hover:text-red-700 transition"
+                  className="text-red-500 hover:text-red-700 transition-colors duration-200"
                   title="Elimina"
                 >
                   <Trash2 className="w-4 h-4" />
