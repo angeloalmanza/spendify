@@ -18,7 +18,15 @@ const useTransactions = () => {
     setTransactions(transactions.filter((t) => t.id !== id));
   };
 
-  return { transactions, addTransaction, removeTransaction };
+  const updateTransaction = (updatedTransaction) => {
+    setTransactions((prev) =>
+      prev.map((t) =>
+        t.id === updatedTransaction.id ? updatedTransaction : t,
+      ),
+    );
+  };
+
+  return { transactions, addTransaction, removeTransaction, updateTransaction };
 };
 
 export default useTransactions;

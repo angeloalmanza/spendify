@@ -12,6 +12,7 @@ const TransactionForm = ({ addTransaction }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name || !amount) return;
+
     addTransaction({
       id: Date.now(),
       name,
@@ -19,8 +20,10 @@ const TransactionForm = ({ addTransaction }) => {
       type,
       category,
     });
+
     setName("");
     setAmount("");
+    setType("income");
     setCategory("Cibo");
   };
 
@@ -36,6 +39,7 @@ const TransactionForm = ({ addTransaction }) => {
         onChange={(e) => setName(e.target.value)}
         className="flex-1 min-w-37.5 border border-gray-400 p-2 rounded-lg"
       />
+
       <input
         type="number"
         placeholder="Importo"
@@ -43,6 +47,7 @@ const TransactionForm = ({ addTransaction }) => {
         onChange={(e) => setAmount(e.target.value)}
         className="flex-1 min-w-37.5 border border-gray-400 p-2 rounded-lg"
       />
+
       <select
         value={type}
         onChange={(e) => setType(e.target.value)}
@@ -51,6 +56,7 @@ const TransactionForm = ({ addTransaction }) => {
         <option value="income">Entrata</option>
         <option value="expense">Uscita</option>
       </select>
+
       <select
         value={category}
         onChange={(e) => setCategory(e.target.value)}

@@ -1,4 +1,4 @@
-import { Trash2 } from "lucide-react";
+import { Edit3, Trash2 } from "lucide-react";
 
 const categoryColors = {
   Cibo: "bg-yellow-100 text-yellow-800",
@@ -8,7 +8,7 @@ const categoryColors = {
   Altro: "bg-gray-100 text-gray-800",
 };
 
-const TransactionList = ({ transactions, removeTransaction }) => {
+const TransactionList = ({ transactions, openDeleteModal, onEdit }) => {
   if (transactions.length === 0)
     return (
       <p className="text-center text-gray-500">Nessuna transazione inserita</p>
@@ -60,7 +60,14 @@ const TransactionList = ({ transactions, removeTransaction }) => {
               </td>
               <td className="p-2 text-right">
                 <button
-                  onClick={() => removeTransaction(t.id)}
+                  onClick={() => onEdit(t)}
+                  className="text-blue-500 hover:text-blue-700 transition mr-2"
+                  title="Modifica"
+                >
+                  <Edit3 className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => openDeleteModal(t.id)}
                   className="text-red-500 hover:text-red-700 transition"
                   title="Elimina"
                 >
