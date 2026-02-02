@@ -11,7 +11,11 @@ const categoryColors = {
 const TransactionList = ({ transactions, openDeleteModal, onEdit }) => {
   if (transactions.length === 0)
     return (
-      <p className="text-center text-gray-500">Nessuna transazione inserita</p>
+      <p className="text-center text-gray-500 py-8">
+        Nessuna transazione 😶
+        <br />
+        Inizia aggiungendone una!
+      </p>
     );
 
   return (
@@ -63,14 +67,14 @@ const TransactionList = ({ transactions, openDeleteModal, onEdit }) => {
                   className="mr-2 text-blue-500 hover:text-blue-700 transition-colors duration-200"
                   title="Modifica"
                 >
-                  <Edit3 className="w-4 h-4" />
+                  <Edit3 className="w-4 h-4 cursor-pointer" />
                 </button>
                 <button
                   onClick={() => openDeleteModal(t.id)}
                   className="text-red-500 hover:text-red-700 transition-colors duration-200"
                   title="Elimina"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <Trash2 className="w-4 h-4 cursor-pointer" />
                 </button>
               </td>
             </tr>

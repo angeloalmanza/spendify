@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Save } from "lucide-react";
+import toast from "react-hot-toast";
 
 const categories = ["Cibo", "Affitto", "Svago", "Stipendio", "Altro"];
 
@@ -32,6 +33,8 @@ const EditTransactionForm = ({
       type,
       category,
     });
+
+    toast.success("Transazione modificata");
 
     onClose();
   };

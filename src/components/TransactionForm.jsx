@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { PlusCircle } from "lucide-react";
+import toast from "react-hot-toast";
 
 const categories = ["Cibo", "Affitto", "Svago", "Stipendio", "Altro"];
 
@@ -20,6 +21,8 @@ const TransactionForm = ({ addTransaction }) => {
       type,
       category,
     });
+
+    toast.success("Transazione aggiunta");
 
     setName("");
     setAmount("");
@@ -71,7 +74,8 @@ const TransactionForm = ({ addTransaction }) => {
 
       <button
         type="submit"
-        className="flex items-center gap-2 w-full md:w-auto bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 hover:scale-105 transition-transform duration-150 focus:outline-none focus:ring-2 focus:ring-blue-300"
+        disabled={!name || !amount}
+        className="disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 w-full md:w-auto bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 hover:scale-105 transition-transform duration-150 focus:outline-none focus:ring-2 focus:ring-blue-300"
       >
         <PlusCircle className="w-4 h-4" />
         Aggiungi
