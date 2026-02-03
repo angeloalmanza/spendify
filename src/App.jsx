@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useTransactions from "./hook/useTransactions";
 import BalanceCard from "./components/BalanceCard";
 import TransactionForm from "./components/TransactionForm";
@@ -24,6 +24,8 @@ const App = () => {
   const [transactionToDelete, setTransactionToDelete] = useState(null);
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const [highlightedId, setHighlightedId] = useState(null);
 
   // --- Funzioni riutilizzabili per chiudere modali ---
   const closeDeleteModal = () => {
@@ -59,6 +61,16 @@ const App = () => {
     setIsEditModalOpen(true);
   };
 
+  useEffect(() => {
+    if (!highlightedId) return;
+
+    const timer = setTimeout(() => {
+      setHighlightedId(null);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [highlightedId]);
+
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       <Toaster position="top-right" />
@@ -73,13 +85,21 @@ const App = () => {
       </div>
 
       {/* Form aggiunta */}
-      <TransactionForm addTransaction={addTransaction} />
+      <TransactionForm
+        addTransaction={(transaction) => {
+          addTransaction(transaction);
+          setHighlightedId(transaction.id);
+        }}
+      />
 
       {/* Modale edit */}
       <EditModal isOpen={isEditModalOpen} onClose={closeEditModal}>
         <EditTransactionForm
           editingTransaction={editingTransaction}
-          updateTransaction={updateTransaction}
+          updateTransaction={(updated) => {
+            updateTransaction(updated);
+            setHighlightedId(updated.id);
+          }}
           onClose={closeEditModal}
         />
       </EditModal>
@@ -89,6 +109,7 @@ const App = () => {
         transactions={filteredTransactions}
         openDeleteModal={openDeleteModal}
         onEdit={openEditModal}
+        highlightedId={highlightedId}
       />
 
       {/* Modale conferma delete */}

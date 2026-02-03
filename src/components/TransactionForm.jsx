@@ -22,7 +22,7 @@ const TransactionForm = ({ addTransaction }) => {
       category,
     });
 
-    toast.success("Transazione aggiunta");
+    toast.success(`${type === "income" ? "Entrata" : "Spesa"} aggiunta`);
 
     setName("");
     setAmount("");

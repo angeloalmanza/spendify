@@ -8,7 +8,12 @@ const categoryColors = {
   Altro: "bg-gray-100 text-gray-800",
 };
 
-const TransactionList = ({ transactions, openDeleteModal, onEdit }) => {
+const TransactionList = ({
+  transactions,
+  openDeleteModal,
+  onEdit,
+  highlightedId,
+}) => {
   if (transactions.length === 0)
     return (
       <p className="text-center text-gray-500 py-8">
@@ -35,7 +40,9 @@ const TransactionList = ({ transactions, openDeleteModal, onEdit }) => {
           {transactions.map((t) => (
             <tr
               key={t.id}
-              className="border-b last:border-none hover:bg-gray-50 transition-colors duration-200"
+              className={`border-b last:border-none transition-colors duration-700 ${
+                highlightedId === t.id ? "bg-green-50" : "hover:bg-gray-100"
+              }`}
             >
               <td className="p-2">{t.name}</td>
               <td className="p-2">

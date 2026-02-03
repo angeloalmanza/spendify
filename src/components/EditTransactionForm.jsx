@@ -34,7 +34,7 @@ const EditTransactionForm = ({
       category,
     });
 
-    toast.success("Transazione modificata");
+    toast.success(`${type === "income" ? "Entrata" : "Spesa"} modificata`);
 
     onClose();
   };
