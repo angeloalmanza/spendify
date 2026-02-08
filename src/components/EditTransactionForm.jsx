@@ -13,6 +13,7 @@ const EditTransactionForm = ({
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("income");
   const [category, setCategory] = useState("Cibo");
+  const [date, setDate] = useState("");
 
   const nameInputRef = useRef(null);
 
@@ -22,6 +23,7 @@ const EditTransactionForm = ({
       setAmount(editingTransaction.amount);
       setType(editingTransaction.type);
       setCategory(editingTransaction.category);
+      setDate(editingTransaction.date);
 
       setTimeout(() => {
         nameInputRef.current?.focus();
@@ -40,6 +42,7 @@ const EditTransactionForm = ({
       amount: Number(amount),
       type,
       category,
+      date,
     });
 
     toast.success(`${type === "income" ? "Entrata" : "Spesa"} modificata`);
@@ -74,6 +77,13 @@ const EditTransactionForm = ({
         <option value="income">Entrata</option>
         <option value="expense">Uscita</option>
       </select>
+
+      <input
+        type="date"
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
+        className="flex-1 border border-gray-400 p-2 rounded-lg"
+      />
 
       <select
         value={category}

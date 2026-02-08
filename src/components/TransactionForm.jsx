@@ -9,6 +9,7 @@ const TransactionForm = ({ addTransaction }) => {
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("income");
   const [category, setCategory] = useState("Cibo");
+  const [date, setDate] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,6 +21,7 @@ const TransactionForm = ({ addTransaction }) => {
       amount: Number(amount),
       type,
       category,
+      date,
     });
 
     toast.success(`${type === "income" ? "Entrata" : "Spesa"} aggiunta`);
@@ -28,6 +30,7 @@ const TransactionForm = ({ addTransaction }) => {
     setAmount("");
     setType("income");
     setCategory("Cibo");
+    setDate("");
   };
 
   return (
@@ -59,6 +62,13 @@ const TransactionForm = ({ addTransaction }) => {
         <option value="income">Entrata</option>
         <option value="expense">Uscita</option>
       </select>
+
+      <input
+        type="date"
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
+        className="flex-1 min-w-37.5 border border-gray-400 p-2 rounded-lg cursor-pointer"
+      />
 
       <select
         value={category}

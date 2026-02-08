@@ -30,6 +30,7 @@ const TransactionList = ({
           <tr className="text-left text-gray-600 border-b">
             <th className="p-2">Nome</th>
             <th className="p-2">Tipo</th>
+            <th className="p-2">Data</th>
             <th className="p-2">Categoria</th>
             <th className="p-2 text-right">Importo</th>
             <th className="p-2 text-right">Azioni</th>
@@ -56,15 +57,20 @@ const TransactionList = ({
                   {t.type === "income" ? "Entrata" : "Uscita"}
                 </span>
               </td>
+              <td className="p-2">{new Date(t.date).toLocaleDateString()}</td>
               <td className="p-2">
                 <span
-                  className={`px-2 py-1 rounded-full text-xs font-medium ${categoryColors[t.category]}`}
+                  className={`px-2 py-1 rounded-full text-xs font-medium ${
+                    categoryColors[t.category]
+                  }`}
                 >
                   {t.category}
                 </span>
               </td>
               <td
-                className={`p-2 text-right font-medium ${t.type === "income" ? "text-green-600" : "text-red-600"}`}
+                className={`p-2 text-right font-medium ${
+                  t.type === "income" ? "text-green-600" : "text-red-600"
+                }`}
               >
                 € {t.amount}
               </td>
