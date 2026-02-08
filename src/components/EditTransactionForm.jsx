@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Save } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -14,17 +14,25 @@ const EditTransactionForm = ({
   const [type, setType] = useState("income");
   const [category, setCategory] = useState("Cibo");
 
+  const nameInputRef = useRef(null);
+
   useEffect(() => {
     if (editingTransaction) {
       setName(editingTransaction.name);
       setAmount(editingTransaction.amount);
       setType(editingTransaction.type);
       setCategory(editingTransaction.category);
+
+      setTimeout(() => {
+        nameInputRef.current?.focus();
+      }, 0);
     }
   }, [editingTransaction]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!name || !amount || Number(amount) <= 0) return;
 
     updateTransaction({
       ...editingTransaction,
@@ -39,11 +47,14 @@ const EditTransactionForm = ({
     onClose();
   };
 
+  const isDisabled = !name || !amount || Number(amount) <= 0;
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-wrap gap-3">
       <input
         type="text"
         value={name}
+        ref={nameInputRef}
         onChange={(e) => setName(e.target.value)}
         className="flex-1 border border-gray-400 p-2 rounded-lg"
       />
@@ -87,7 +98,15 @@ const EditTransactionForm = ({
 
         <button
           type="submit"
-          className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+          disabled={isDisabled}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition
+            ${
+              isDisabled
+                ? "bg-blue-300 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600"
+            }
+            text-white
+          `}
         >
           <Save className="w-4 h-4" />
           Salva modifiche
