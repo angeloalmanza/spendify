@@ -27,6 +27,9 @@ const App = () => {
 
   const [highlightedId, setHighlightedId] = useState(null);
 
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
   // --- Funzioni riutilizzabili per chiudere modali ---
   const closeDeleteModal = () => {
     setIsDeleteModalOpen(false);
@@ -41,7 +44,12 @@ const App = () => {
   // --- Filter + Search ---
   const filteredTransactions = transactions
     .filter((t) => (filter === "all" ? true : t.type === filter))
-    .filter((t) => t.name.toLowerCase().includes(search.toLowerCase()));
+    .filter((t) => t.name.toLowerCase().includes(search.toLowerCase()))
+    .filter((t) => {
+      if (startDate && t.date < startDate) return false;
+      if (endDate && t.date > endDate) return false;
+      return true;
+    });
 
   // --- Delete ---
   const openDeleteModal = (id) => {
@@ -81,7 +89,14 @@ const App = () => {
 
       <div className="flex flex-col md:flex-row md:items-end md:gap-4 mb-4">
         <SearchBar search={search} setSearch={setSearch} />
-        <FilterBar filter={filter} setFilter={setFilter} />
+        <FilterBar
+          filter={filter}
+          setFilter={setFilter}
+          startDate={startDate}
+          endDate={endDate}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
+        />
       </div>
 
       {/* Form aggiunta */}
