@@ -6,7 +6,29 @@
 .recharts-surface:focus,
 .recharts-surface:focus-visible,
 .recharts-layer:focus,
-.recharts-layer:focus-visible {
+.recharts-layer:focus-visible,
+.recharts-bar-rectangle:focus,
+.recharts-bar-rectangle:focus-visible,
+.recharts-pie-sector:focus,
+.recharts-pie-sector:focus-visible,
+.recharts-dot:focus,
+.recharts-dot:focus-visible,
+.recharts-active-dot:focus,
+.recharts-active-dot:focus-visible,
+.recharts-line-curve:focus,
+.recharts-line-curve:focus-visible,
+.recharts-curve:focus,
+.recharts-curve:focus-visible,
+.recharts-text:focus,
+.recharts-text:focus-visible,
+.recharts-tooltip-cursor:focus,
+.recharts-tooltip-cursor:focus-visible {
+  outline: none;
+}
+
+/* Safety net: remove focus outlines from any focused element inside charts */
+.recharts-wrapper *:focus,
+.recharts-wrapper *:focus-visible {
   outline: none;
 }
 
