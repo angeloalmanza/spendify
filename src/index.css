@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+/* Remove focus outlines added by Recharts wrappers on click */
+.recharts-wrapper:focus,
+.recharts-wrapper:focus-visible,
+.recharts-surface:focus,
+.recharts-surface:focus-visible,
+.recharts-layer:focus,
+.recharts-layer:focus-visible {
+  outline: none;
+}
