@@ -10,32 +10,43 @@ const BalanceCard = ({ transactions }) => {
     .reduce((acc, t) => acc + Number(t.amount), 0);
 
   const balance = income - expenses;
+  const formatter = new Intl.NumberFormat("it-IT", {
+    style: "currency",
+    currency: "EUR",
+  });
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-lg mb-4 flex justify-around gap-2 transition-all duration-300">
-      <div>
-        <h2 className="flex items-center justify-center gap-2 text-2xl font-semibold text-gray-800">
-          <Wallet className="w-5 h-5" /> Saldo
-        </h2>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div className="bg-white/90 border border-slate-100 p-4 rounded-xl shadow-sm">
+        <div className="flex items-center gap-2 text-sm text-slate-500">
+          <Wallet className="w-4 h-4" />
+          Saldo
+        </div>
         <p
-          className={`text-center font-medium ${
-            balance >= 0 ? "text-green-600" : "text-red-600"
-          } transition-colors duration-300`}
+          className={`mt-2 text-2xl font-semibold ${
+            balance >= 0 ? "text-emerald-600" : "text-rose-600"
+          }`}
         >
-          {balance.toFixed(2)} €
+          {formatter.format(balance)}
         </p>
       </div>
-      <div>
-        <h2 className="flex items-center justify-center gap-2 text-2xl font-semibold text-gray-800">
-          <TrendingUp className="w-5 h-5" /> Entrate
-        </h2>
-        <p className="text-center text-gray-500">{income.toFixed(2)} €</p>
+      <div className="bg-white/90 border border-slate-100 p-4 rounded-xl shadow-sm">
+        <div className="flex items-center gap-2 text-sm text-slate-500">
+          <TrendingUp className="w-4 h-4" />
+          Entrate
+        </div>
+        <p className="mt-2 text-2xl font-semibold text-emerald-600">
+          {formatter.format(income)}
+        </p>
       </div>
-      <div>
-        <h2 className="flex items-center justify-center gap-2 text-2xl font-semibold text-gray-800">
-          <TrendingDown className="w-5 h-5" /> Uscite
-        </h2>
-        <p className="text-center text-gray-500">{expenses.toFixed(2)} €</p>
+      <div className="bg-white/90 border border-slate-100 p-4 rounded-xl shadow-sm">
+        <div className="flex items-center gap-2 text-sm text-slate-500">
+          <TrendingDown className="w-4 h-4" />
+          Uscite
+        </div>
+        <p className="mt-2 text-2xl font-semibold text-rose-600">
+          {formatter.format(expenses)}
+        </p>
       </div>
     </div>
   );

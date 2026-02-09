@@ -16,13 +16,13 @@ const ConfirmModal = ({ isOpen, onClose, onConfirm }) => {
         <div className="flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition"
+            className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition cursor-pointer"
           >
             Annulla
           </button>
           <button
             onClick={onConfirm}
-            className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition"
+            className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition cursor-pointer"
           >
             Elimina
           </button>

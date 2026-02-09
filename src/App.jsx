@@ -150,41 +150,63 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
       <Toaster position="top-right" />
-      <h1 className="text-4xl font-bold mb-4 text-center">Expense Tracker</h1>
+      <div className="mx-auto max-w-6xl px-4 py-6 md:py-8">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-6">
+          <div>
+            <p className="text-xs uppercase tracking-wide text-slate-400">
+              Dashboard personale
+            </p>
+            <h1 className="text-3xl md:text-4xl font-semibold text-slate-900">
+              Expense Tracker
+            </h1>
+          </div>
+          <button
+            type="button"
+            onClick={handleExportCsv}
+            className="w-full md:w-auto h-10 bg-slate-900 text-white px-4 rounded-lg hover:bg-slate-800 transition-colors"
+          >
+            Esporta CSV
+          </button>
+        </div>
 
-      <BalanceCard transactions={filteredTransactions} />
-      <TransactionsChart transactions={filteredTransactions} />
+        <BalanceCard transactions={filteredTransactions} />
+        <TransactionsChart transactions={filteredTransactions} />
 
-      <div className="flex flex-col md:flex-row md:items-end md:gap-4 gap-3 mb-4">
-        <SearchBar search={search} setSearch={setSearch} />
-        <FilterBar
-          filter={filter}
-          setFilter={setFilter}
-          startDate={startDate}
-          endDate={endDate}
-          setStartDate={setStartDate}
-          setEndDate={setEndDate}
-          setSortField={setSortField}
-          setSortDirection={setSortDirection}
+        <div className="bg-white/90 border border-slate-100 rounded-xl p-4 shadow-sm mb-6">
+          <div className="flex flex-col gap-4">
+            <div>
+              <p className="text-sm font-medium text-slate-700">Ricerca e filtri</p>
+              <p className="text-xs text-slate-400">
+                Affina per tipo, data o categoria
+              </p>
+            </div>
+            <div className="flex flex-col lg:flex-row lg:items-end gap-4">
+              <div className="lg:w-64">
+                <SearchBar search={search} setSearch={setSearch} />
+              </div>
+              <FilterBar
+                filter={filter}
+                setFilter={setFilter}
+                startDate={startDate}
+                endDate={endDate}
+                setStartDate={setStartDate}
+                setEndDate={setEndDate}
+                setSortField={setSortField}
+                setSortDirection={setSortDirection}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Form aggiunta */}
+        <TransactionForm
+          addTransaction={(transaction) => {
+            addTransaction(transaction);
+            setHighlightedId(transaction.id);
+          }}
         />
-        <button
-          type="button"
-          onClick={handleExportCsv}
-          className="w-full md:w-auto h-10 bg-gray-900 text-white px-4 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer"
-        >
-          Esporta CSV
-        </button>
-      </div>
-
-      {/* Form aggiunta */}
-      <TransactionForm
-        addTransaction={(transaction) => {
-          addTransaction(transaction);
-          setHighlightedId(transaction.id);
-        }}
-      />
 
       {/* Modale edit */}
       <EditModal isOpen={isEditModalOpen} onClose={closeEditModal}>
@@ -199,22 +221,23 @@ const App = () => {
       </EditModal>
 
       {/* Lista transazioni */}
-      <TransactionList
-        transactions={sortedTransactions}
-        onSort={handleSort}
-        sortField={sortField}
-        sortDirection={sortDirection}
-        openDeleteModal={openDeleteModal}
-        onEdit={openEditModal}
-        highlightedId={highlightedId}
-      />
+        <TransactionList
+          transactions={sortedTransactions}
+          onSort={handleSort}
+          sortField={sortField}
+          sortDirection={sortDirection}
+          openDeleteModal={openDeleteModal}
+          onEdit={openEditModal}
+          highlightedId={highlightedId}
+        />
 
-      {/* Modale conferma delete */}
-      <ConfirmModal
-        isOpen={isDeleteModalOpen}
-        onClose={closeDeleteModal}
-        onConfirm={confirmDelete}
-      />
+        {/* Modale conferma delete */}
+        <ConfirmModal
+          isOpen={isDeleteModalOpen}
+          onClose={closeDeleteModal}
+          onConfirm={confirmDelete}
+        />
+      </div>
     </div>
   );
 };

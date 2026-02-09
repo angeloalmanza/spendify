@@ -13,7 +13,7 @@ const TransactionForm = ({ addTransaction }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !amount) return;
+    if (!name || !amount || !date) return;
 
     addTransaction({
       name,
@@ -35,60 +35,96 @@ const TransactionForm = ({ addTransaction }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-4 rounded-lg shadow-lg mb-4 flex flex-wrap items-end gap-3"
+      className="bg-white/90 border border-slate-100 p-4 rounded-xl shadow-sm mb-6 flex flex-col gap-4"
     >
-      <input
-        type="text"
-        placeholder="Nome Transazione"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        className="flex-1 min-w-37.5 border border-gray-400 p-2 rounded-lg"
-      />
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-slate-800">
+          Aggiungi transazione
+        </h2>
+        <p className="text-xs text-slate-400">I campi con * sono obbligatori</p>
+      </div>
 
-      <input
-        type="number"
-        placeholder="Importo"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-        className="flex-1 min-w-37.5 border border-gray-400 p-2 rounded-lg"
-      />
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-3 items-end">
+        <div className="md:col-span-2">
+          <label className="block text-xs font-medium text-slate-500 mb-1">
+            Nome *
+          </label>
+          <input
+            type="text"
+            placeholder="Es. Stipendio"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full h-10 border border-slate-200 rounded-lg px-3 text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400"
+          />
+        </div>
 
-      <select
-        value={type}
-        onChange={(e) => setType(e.target.value)}
-        className="flex-1 min-w-37.5 border border-gray-400 p-2 rounded-lg cursor-pointer"
-      >
-        <option value="income">Entrata</option>
-        <option value="expense">Uscita</option>
-      </select>
+        <div>
+          <label className="block text-xs font-medium text-slate-500 mb-1">
+            Importo *
+          </label>
+          <input
+            type="number"
+            placeholder="0,00"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="w-full h-10 border border-slate-200 rounded-lg px-3 text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400"
+          />
+        </div>
 
-      <input
-        type="date"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-        className="flex-1 min-w-37.5 border border-gray-400 p-2 rounded-lg cursor-pointer"
-      />
+        <div>
+          <label className="block text-xs font-medium text-slate-500 mb-1">
+            Tipo
+          </label>
+          <select
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+            className="w-full h-10 border border-slate-200 rounded-lg px-3 text-slate-700 bg-white cursor-pointer"
+          >
+            <option value="income">Entrata</option>
+            <option value="expense">Uscita</option>
+          </select>
+        </div>
 
-      <select
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-        className="flex-1 min-w-37.5 border border-gray-400 p-2 rounded-lg cursor-pointer"
-      >
-        {categories.map((c) => (
-          <option key={c} value={c}>
-            {c}
-          </option>
-        ))}
-      </select>
+        <div>
+          <label className="block text-xs font-medium text-slate-500 mb-1">
+            Data *
+          </label>
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className="w-full h-10 border border-slate-200 rounded-lg px-3 text-slate-700 bg-white cursor-pointer"
+          />
+        </div>
 
-      <button
-        type="submit"
-        disabled={!name || !amount}
-        className="disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 w-full md:w-auto bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 hover:scale-105 transition-transform duration-150 focus:outline-none focus:ring-2 focus:ring-blue-300"
-      >
-        <PlusCircle className="w-4 h-4" />
-        Aggiungi
-      </button>
+        <div>
+          <label className="block text-xs font-medium text-slate-500 mb-1">
+            Categoria
+          </label>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full h-10 border border-slate-200 rounded-lg px-3 text-slate-700 bg-white cursor-pointer"
+          >
+            {categories.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div className="flex justify-end">
+        <button
+          type="submit"
+          disabled={!name || !amount}
+          className="disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 h-10 bg-slate-900 text-white px-4 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+        >
+          <PlusCircle className="w-4 h-4" />
+          Aggiungi
+        </button>
+      </div>
     </form>
   );
 };

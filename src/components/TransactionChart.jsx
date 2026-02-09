@@ -155,12 +155,12 @@ const TransactionsChart = ({ transactions }) => {
   const categoryHasData = hasExpenseCategories || hasIncomeCategories;
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-lg mb-4">
+    <div className="bg-white/90 border border-slate-100 p-5 rounded-xl shadow-sm mb-6">
       <div className="flex flex-col gap-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="w-full h-72">
-            <h2 className="text-lg font-semibold mb-2">
-              Trend mensile (Entrate vs Uscite)
+            <h2 className="text-lg font-semibold text-slate-800 mb-2">
+              Trend mensile
             </h2>
             {monthlyHasData ? (
               <ResponsiveContainer width="100%" height="100%">

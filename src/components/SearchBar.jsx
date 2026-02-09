@@ -5,7 +5,7 @@ const SearchBar = ({ search, setSearch }) => {
       placeholder="Cerca Transazione..."
       value={search}
       onChange={(e) => setSearch(e.target.value)}
-      className="w-full md:w-64 p-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+      className="w-full h-10 px-3 border border-slate-200 rounded-lg bg-white text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition"
     />
   );
 };

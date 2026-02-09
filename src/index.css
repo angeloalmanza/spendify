@@ -9,3 +9,7 @@
 .recharts-layer:focus-visible {
   outline: none;
 }
+
+:root {
+  font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+}

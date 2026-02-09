@@ -72,7 +72,7 @@ const EditTransactionForm = ({
       <select
         value={type}
         onChange={(e) => setType(e.target.value)}
-        className="flex-1 border border-gray-400 p-2 rounded-lg"
+        className="flex-1 border border-gray-400 p-2 rounded-lg cursor-pointer"
       >
         <option value="income">Entrata</option>
         <option value="expense">Uscita</option>
@@ -82,13 +82,13 @@ const EditTransactionForm = ({
         type="date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
-        className="flex-1 border border-gray-400 p-2 rounded-lg"
+        className="flex-1 border border-gray-400 p-2 rounded-lg cursor-pointer"
       />
 
       <select
         value={category}
         onChange={(e) => setCategory(e.target.value)}
-        className="flex-1 border border-gray-400 p-2 rounded-lg"
+        className="flex-1 border border-gray-400 p-2 rounded-lg cursor-pointer"
       >
         {categories.map((c) => (
           <option key={c} value={c}>
@@ -101,7 +101,7 @@ const EditTransactionForm = ({
         <button
           type="button"
           onClick={onClose}
-          className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300"
+          className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 cursor-pointer"
         >
           Annulla
         </button>
@@ -109,7 +109,7 @@ const EditTransactionForm = ({
         <button
           type="submit"
           disabled={isDisabled}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition cursor-pointer
             ${
               isDisabled
                 ? "bg-blue-300 cursor-not-allowed"

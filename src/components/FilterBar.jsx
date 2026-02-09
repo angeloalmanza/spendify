@@ -23,24 +23,30 @@ const FilterBar = ({
       {/* Filtro tipo */}
       <button
         onClick={() => setFilter("all")}
-        className={`px-4 py-2 rounded-lg transition cursor-pointer ${
-          filter === "all" ? "bg-blue-500 text-white" : "bg-gray-400"
+        className={`h-10 px-4 rounded-lg text-sm font-medium transition cursor-pointer ${
+          filter === "all"
+            ? "bg-slate-900 text-white"
+            : "bg-slate-100 text-slate-700 hover:bg-slate-200"
         }`}
       >
         Tutte
       </button>
       <button
         onClick={() => setFilter("income")}
-        className={`px-4 py-2 rounded-lg transition cursor-pointer ${
-          filter === "income" ? "bg-green-500 text-white" : "bg-gray-400"
+        className={`h-10 px-4 rounded-lg text-sm font-medium transition cursor-pointer ${
+          filter === "income"
+            ? "bg-emerald-600 text-white"
+            : "bg-slate-100 text-slate-700 hover:bg-slate-200"
         }`}
       >
         Entrate
       </button>
       <button
         onClick={() => setFilter("expense")}
-        className={`px-4 py-2 rounded-lg transition cursor-pointer ${
-          filter === "expense" ? "bg-red-500 text-white" : "bg-gray-400"
+        className={`h-10 px-4 rounded-lg text-sm font-medium transition cursor-pointer ${
+          filter === "expense"
+            ? "bg-rose-600 text-white"
+            : "bg-slate-100 text-slate-700 hover:bg-slate-200"
         }`}
       >
         Uscite
@@ -51,21 +57,21 @@ const FilterBar = ({
         type="date"
         value={startDate}
         onChange={(e) => setStartDate(e.target.value)}
-        className="border border-gray-400 rounded-lg px-2 py-2 cursor-pointer"
+        className="h-10 border border-slate-200 rounded-lg px-3 text-sm text-slate-700 bg-white cursor-pointer"
         placeholder="Da"
       />
       <input
         type="date"
         value={endDate}
         onChange={(e) => setEndDate(e.target.value)}
-        className="border border-gray-400 rounded-lg px-2 py-2 cursor-pointer"
+        className="h-10 border border-slate-200 rounded-lg px-3 text-sm text-slate-700 bg-white cursor-pointer"
         placeholder="A"
       />
 
       {/* Pulsante reset */}
       <button
         onClick={resetFilters}
-        className="flex items-center gap-1 px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 text-gray-800 transition"
+        className="h-10 flex items-center gap-2 px-4 rounded-lg text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer"
         title="Reset filtri"
       >
         <X className="w-4 h-4" />
