@@ -2,13 +2,21 @@ import { useEffect } from "react";
 
 const EditModal = ({ isOpen, onClose, children }) => {
   useEffect(() => {
+    const body = document.body;
+    const getScrollbarWidth = () =>
+      window.innerWidth - document.documentElement.clientWidth;
+
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      const scrollbarWidth = getScrollbarWidth();
+      body.style.overflow = "hidden";
+      body.style.paddingRight = scrollbarWidth ? `${scrollbarWidth}px` : "";
     } else {
-      document.body.style.overflow = "auto";
+      body.style.overflow = "auto";
+      body.style.paddingRight = "";
     }
     return () => {
-      document.body.style.overflow = "auto";
+      body.style.overflow = "auto";
+      body.style.paddingRight = "";
     };
   }, [isOpen]);
 
@@ -22,7 +30,7 @@ const EditModal = ({ isOpen, onClose, children }) => {
       onClick={onClose}
     >
       <div
-        className={`bg-white rounded-lg shadow-lg w-full max-w-xl p-4 transform transition-transform duration-200 ${
+        className={`bg-white rounded-lg shadow-lg w-full max-w-xl p-4 transform transition-transform duration-200 dark:bg-slate-900 dark:text-slate-100 ${
           isOpen ? "scale-100" : "scale-95"
         }`}
         onClick={(e) => e.stopPropagation()}

@@ -35,18 +35,20 @@ const TransactionForm = ({ addTransaction }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white/90 border border-slate-100 p-4 rounded-xl shadow-sm mb-6 flex flex-col gap-4"
+      className="bg-white/90 border border-slate-100 p-4 rounded-xl shadow-sm mb-6 flex flex-col gap-4 dark:bg-slate-900/70 dark:border-slate-800"
     >
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-slate-800">
+        <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">
           Aggiungi transazione
         </h2>
-        <p className="text-xs text-slate-400">I campi con * sono obbligatori</p>
+        <p className="text-xs text-slate-400 dark:text-slate-500">
+          I campi con * sono obbligatori
+        </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-6 gap-3 items-end">
         <div className="md:col-span-2">
-          <label className="block text-xs font-medium text-slate-500 mb-1">
+          <label className="block text-xs font-medium text-slate-500 mb-1 dark:text-slate-400">
             Nome *
           </label>
           <input
@@ -54,12 +56,12 @@ const TransactionForm = ({ addTransaction }) => {
             placeholder="Es. Stipendio"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full h-10 border border-slate-200 rounded-lg px-3 text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400"
+            className="w-full h-10 border border-slate-200 rounded-lg px-3 text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1">
+          <label className="block text-xs font-medium text-slate-500 mb-1 dark:text-slate-400">
             Importo *
           </label>
           <input
@@ -67,18 +69,18 @@ const TransactionForm = ({ addTransaction }) => {
             placeholder="0,00"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full h-10 border border-slate-200 rounded-lg px-3 text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400"
+            className="w-full h-10 border border-slate-200 rounded-lg px-3 text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1">
+          <label className="block text-xs font-medium text-slate-500 mb-1 dark:text-slate-400">
             Tipo
           </label>
           <select
             value={type}
             onChange={(e) => setType(e.target.value)}
-            className="w-full h-10 border border-slate-200 rounded-lg px-3 text-slate-700 bg-white cursor-pointer"
+            className="w-full h-10 border border-slate-200 rounded-lg px-3 text-slate-700 bg-white cursor-pointer dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
           >
             <option value="income">Entrata</option>
             <option value="expense">Uscita</option>
@@ -86,25 +88,25 @@ const TransactionForm = ({ addTransaction }) => {
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1">
+          <label className="block text-xs font-medium text-slate-500 mb-1 dark:text-slate-400">
             Data *
           </label>
           <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="w-full h-10 border border-slate-200 rounded-lg px-3 text-slate-700 bg-white cursor-pointer"
+            className="w-full h-10 border border-slate-200 rounded-lg px-3 text-slate-700 bg-white cursor-pointer dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1">
+          <label className="block text-xs font-medium text-slate-500 mb-1 dark:text-slate-400">
             Categoria
           </label>
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="w-full h-10 border border-slate-200 rounded-lg px-3 text-slate-700 bg-white cursor-pointer"
+            className="w-full h-10 border border-slate-200 rounded-lg px-3 text-slate-700 bg-white cursor-pointer dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
           >
             {categories.map((c) => (
               <option key={c} value={c}>

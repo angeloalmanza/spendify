@@ -155,11 +155,11 @@ const TransactionsChart = ({ transactions }) => {
   const categoryHasData = hasExpenseCategories || hasIncomeCategories;
 
   return (
-    <div className="bg-white/90 border border-slate-100 p-5 rounded-xl shadow-sm mb-6">
+    <div className="bg-white/90 border border-slate-100 p-5 rounded-xl shadow-sm mb-6 dark:bg-slate-900/70 dark:border-slate-800">
       <div className="flex flex-col gap-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="w-full h-72">
-            <h2 className="text-lg font-semibold text-slate-800 mb-2">
+            <h2 className="text-lg font-semibold text-slate-800 mb-2 dark:text-slate-100">
               Trend mensile
             </h2>
             {monthlyHasData ? (
@@ -216,16 +216,18 @@ const TransactionsChart = ({ transactions }) => {
                 </ComposedChart>
               </ResponsiveContainer>
             ) : (
-              <div className="h-full flex items-center justify-center text-gray-500">
+              <div className="h-full flex items-center justify-center text-gray-500 dark:text-slate-400">
                 Nessun dato mensile disponibile
               </div>
             )}
           </div>
 
           <div className="w-full h-72">
-            <h2 className="text-lg font-semibold mb-2">{categoryTitle}</h2>
+            <h2 className="text-lg font-semibold mb-2 text-slate-800 dark:text-slate-100">
+              {categoryTitle}
+            </h2>
             {(hasExpenseCategories || hasIncomeCategories) && (
-              <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600 mb-2">
+              <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600 mb-2 dark:text-slate-400">
                 {hasExpenseCategories && (
                   <span className="inline-flex items-center gap-2">
                     <span
@@ -307,7 +309,7 @@ const TransactionsChart = ({ transactions }) => {
                 </PieChart>
               </ResponsiveContainer>
             ) : (
-              <div className="h-full flex items-center justify-center text-gray-500">
+              <div className="h-full flex items-center justify-center text-gray-500 dark:text-slate-400">
                 Nessun dato per categorie
               </div>
             )}
@@ -315,21 +317,27 @@ const TransactionsChart = ({ transactions }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
-          <div className="p-4 rounded-lg bg-green-50">
-            <p className="text-sm text-gray-600">Entrate totali</p>
-            <p className="text-xl font-semibold text-green-600">
+          <div className="p-4 rounded-lg bg-green-50 dark:bg-emerald-950/40">
+            <p className="text-sm text-gray-600 dark:text-slate-400">
+              Entrate totali
+            </p>
+            <p className="text-xl font-semibold text-green-600 dark:text-emerald-400">
               {formatCurrency(incomeTotal)}
             </p>
           </div>
-          <div className="p-4 rounded-lg bg-red-50">
-            <p className="text-sm text-gray-600">Uscite totali</p>
-            <p className="text-xl font-semibold text-red-600">
+          <div className="p-4 rounded-lg bg-red-50 dark:bg-rose-950/40">
+            <p className="text-sm text-gray-600 dark:text-slate-400">
+              Uscite totali
+            </p>
+            <p className="text-xl font-semibold text-red-600 dark:text-rose-400">
               {formatCurrency(expenseTotal)}
             </p>
           </div>
-          <div className="p-4 rounded-lg bg-blue-50">
-            <p className="text-sm text-gray-600">Saldo netto</p>
-            <p className="text-xl font-semibold text-blue-600">
+          <div className="p-4 rounded-lg bg-blue-50 dark:bg-sky-950/40">
+            <p className="text-sm text-gray-600 dark:text-slate-400">
+              Saldo netto
+            </p>
+            <p className="text-xl font-semibold text-blue-600 dark:text-sky-400">
               {formatCurrency(incomeTotal - expenseTotal)}
             </p>
           </div>

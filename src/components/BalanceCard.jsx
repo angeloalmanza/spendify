@@ -17,8 +17,8 @@ const BalanceCard = ({ transactions }) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-      <div className="bg-white/90 border border-slate-100 p-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-2 text-sm text-slate-500">
+      <div className="bg-white/90 border border-slate-100 p-4 rounded-xl shadow-sm dark:bg-slate-900/70 dark:border-slate-800">
+        <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
           <Wallet className="w-4 h-4" />
           Saldo
         </div>
@@ -30,8 +30,8 @@ const BalanceCard = ({ transactions }) => {
           {formatter.format(balance)}
         </p>
       </div>
-      <div className="bg-white/90 border border-slate-100 p-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-2 text-sm text-slate-500">
+      <div className="bg-white/90 border border-slate-100 p-4 rounded-xl shadow-sm dark:bg-slate-900/70 dark:border-slate-800">
+        <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
           <TrendingUp className="w-4 h-4" />
           Entrate
         </div>
@@ -39,8 +39,8 @@ const BalanceCard = ({ transactions }) => {
           {formatter.format(income)}
         </p>
       </div>
-      <div className="bg-white/90 border border-slate-100 p-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-2 text-sm text-slate-500">
+      <div className="bg-white/90 border border-slate-100 p-4 rounded-xl shadow-sm dark:bg-slate-900/70 dark:border-slate-800">
+        <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
           <TrendingDown className="w-4 h-4" />
           Uscite
         </div>

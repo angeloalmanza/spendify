@@ -59,20 +59,20 @@ const EditTransactionForm = ({
         value={name}
         ref={nameInputRef}
         onChange={(e) => setName(e.target.value)}
-        className="flex-1 border border-gray-400 p-2 rounded-lg"
+        className="flex-1 border border-slate-200 p-2 rounded-lg bg-white text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
       />
 
       <input
         type="number"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
-        className="flex-1 border border-gray-400 p-2 rounded-lg"
+        className="flex-1 border border-slate-200 p-2 rounded-lg bg-white text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
       />
 
       <select
         value={type}
         onChange={(e) => setType(e.target.value)}
-        className="flex-1 border border-gray-400 p-2 rounded-lg cursor-pointer"
+        className="flex-1 border border-slate-200 p-2 rounded-lg cursor-pointer bg-white text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
       >
         <option value="income">Entrata</option>
         <option value="expense">Uscita</option>
@@ -82,13 +82,13 @@ const EditTransactionForm = ({
         type="date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
-        className="flex-1 border border-gray-400 p-2 rounded-lg cursor-pointer"
+        className="flex-1 border border-slate-200 p-2 rounded-lg cursor-pointer bg-white text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
       />
 
       <select
         value={category}
         onChange={(e) => setCategory(e.target.value)}
-        className="flex-1 border border-gray-400 p-2 rounded-lg cursor-pointer"
+        className="flex-1 border border-slate-200 p-2 rounded-lg cursor-pointer bg-white text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
       >
         {categories.map((c) => (
           <option key={c} value={c}>
@@ -101,7 +101,7 @@ const EditTransactionForm = ({
         <button
           type="button"
           onClick={onClose}
-          className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 cursor-pointer"
+          className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 cursor-pointer dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
         >
           Annulla
         </button>

@@ -51,6 +51,24 @@ const App = () => {
 
   const [sortField, setSortField] = useState("date");
   const [sortDirection, setSortDirection] = useState("asc");
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem("theme");
+    if (saved) return saved;
+    return window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   const handleExportCsv = () => {
     if (transactions.length === 0) {
@@ -150,35 +168,48 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900">
       <Toaster position="top-right" />
       <div className="mx-auto max-w-6xl px-4 py-6 md:py-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-6">
           <div>
-            <p className="text-xs uppercase tracking-wide text-slate-400">
+            <p className="text-xs uppercase tracking-wide text-slate-400 dark:text-slate-500">
               Dashboard personale
             </p>
-            <h1 className="text-3xl md:text-4xl font-semibold text-slate-900">
+            <h1 className="text-3xl md:text-4xl font-semibold text-slate-900 dark:text-slate-100">
               Expense Tracker
             </h1>
           </div>
-          <button
-            type="button"
-            onClick={handleExportCsv}
-            className="w-full md:w-auto h-10 bg-slate-900 text-white px-4 rounded-lg hover:bg-slate-800 transition-colors"
-          >
-            Esporta CSV
-          </button>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <button
+              type="button"
+              onClick={() =>
+                setTheme((current) => (current === "dark" ? "light" : "dark"))
+              }
+              className="w-full sm:w-auto h-10 px-4 rounded-lg border border-slate-200 text-slate-700 bg-white hover:bg-slate-50 transition-colors dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
+            >
+              {theme === "dark" ? "Light mode" : "Dark mode"}
+            </button>
+            <button
+              type="button"
+              onClick={handleExportCsv}
+              className="w-full sm:w-auto h-10 bg-slate-900 text-white px-4 rounded-lg hover:bg-slate-800 transition-colors dark:bg-slate-200 dark:text-slate-900 dark:hover:bg-white"
+            >
+              Esporta CSV
+            </button>
+          </div>
         </div>
 
         <BalanceCard transactions={filteredTransactions} />
         <TransactionsChart transactions={filteredTransactions} />
 
-        <div className="bg-white/90 border border-slate-100 rounded-xl p-4 shadow-sm mb-6">
+        <div className="bg-white/90 border border-slate-100 rounded-xl p-4 shadow-sm mb-6 dark:bg-slate-900/70 dark:border-slate-800">
           <div className="flex flex-col gap-4">
             <div>
-              <p className="text-sm font-medium text-slate-700">Ricerca e filtri</p>
-              <p className="text-xs text-slate-400">
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
+                Ricerca e filtri
+              </p>
+              <p className="text-xs text-slate-400 dark:text-slate-500">
                 Affina per tipo, data o categoria
               </p>
             </div>
@@ -195,6 +226,7 @@ const App = () => {
                 setEndDate={setEndDate}
                 setSortField={setSortField}
                 setSortDirection={setSortDirection}
+                setSearch={setSearch}
               />
             </div>
           </div>
@@ -208,19 +240,19 @@ const App = () => {
           }}
         />
 
-      {/* Modale edit */}
-      <EditModal isOpen={isEditModalOpen} onClose={closeEditModal}>
-        <EditTransactionForm
-          editingTransaction={editingTransaction}
-          updateTransaction={(updated) => {
-            updateTransaction(updated);
-            setHighlightedId(updated.id);
-          }}
-          onClose={closeEditModal}
-        />
-      </EditModal>
+        {/* Modale edit */}
+        <EditModal isOpen={isEditModalOpen} onClose={closeEditModal}>
+          <EditTransactionForm
+            editingTransaction={editingTransaction}
+            updateTransaction={(updated) => {
+              updateTransaction(updated);
+              setHighlightedId(updated.id);
+            }}
+            onClose={closeEditModal}
+          />
+        </EditModal>
 
-      {/* Lista transazioni */}
+        {/* Lista transazioni */}
         <TransactionList
           transactions={sortedTransactions}
           onSort={handleSort}
