@@ -1,0 +1,253 @@
+import { useEffect, useMemo, useState } from "react";
+
+const categories = ["Cibo", "Affitto", "Svago", "Altro"];
+
+const currencyFormatter = new Intl.NumberFormat("it-IT", {
+  style: "currency",
+  currency: "EUR",
+});
+
+const formatCurrency = (value) => currencyFormatter.format(value || 0);
+
+const parseLocalDate = (value) => {
+  if (!value) return null;
+  const [year, month, day] = value.split("-").map(Number);
+  if (!year || !month || !day) return null;
+  return new Date(year, month - 1, day);
+};
+
+const getMonthKey = (date) =>
+  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+
+const getPreviousMonthDate = (date) =>
+  new Date(date.getFullYear(), date.getMonth() - 1, 1);
+
+const InsightsPanel = ({ transactions }) => {
+  const [budgets, setBudgets] = useState(() => {
+    const saved = localStorage.getItem("budgets");
+    if (!saved) return {};
+    try {
+      return JSON.parse(saved);
+    } catch {
+      return {};
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem("budgets", JSON.stringify(budgets));
+  }, [budgets]);
+
+  const today = new Date();
+  const currentMonthKey = getMonthKey(today);
+  const previousMonthKey = getMonthKey(getPreviousMonthDate(today));
+
+  const { currentMonth, previousMonth } = useMemo(() => {
+    const base = {
+      income: 0,
+      expense: 0,
+      perCategory: {},
+    };
+    const current = { ...base, perCategory: {} };
+    const previous = { ...base, perCategory: {} };
+
+    transactions.forEach((transaction) => {
+      const parsed = parseLocalDate(transaction.date);
+      if (!parsed) return;
+      const key = getMonthKey(parsed);
+      const amount = Number(transaction.amount) || 0;
+      const category = transaction.category || "Altro";
+
+      const target = key === currentMonthKey
+        ? current
+        : key === previousMonthKey
+          ? previous
+          : null;
+
+      if (!target) return;
+
+      if (transaction.type === "income") {
+        target.income += amount;
+      } else {
+        target.expense += amount;
+        if (category !== "Stipendio") {
+          target.perCategory[category] =
+            (target.perCategory[category] || 0) + amount;
+        }
+      }
+    });
+
+    return { currentMonth: current, previousMonth: previous };
+  }, [transactions, currentMonthKey, previousMonthKey]);
+
+  const buildDelta = (current, previous) => {
+    const diff = current - previous;
+    const percent =
+      previous === 0 ? null : Math.round((diff / previous) * 100);
+    return { diff, percent };
+  };
+
+  const incomeDelta = buildDelta(currentMonth.income, previousMonth.income);
+  const expenseDelta = buildDelta(currentMonth.expense, previousMonth.expense);
+  const netDelta = buildDelta(
+    currentMonth.income - currentMonth.expense,
+    previousMonth.income - previousMonth.expense,
+  );
+
+  const topCategory = Object.entries(currentMonth.perCategory).sort(
+    (a, b) => b[1] - a[1],
+  )[0];
+
+  return (
+    <div className="bg-white/90 border border-slate-100 p-5 rounded-xl shadow-sm mb-6 dark:bg-slate-900/70 dark:border-slate-800">
+      <div className="flex flex-col gap-6">
+        <div>
+          <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">
+            Analisi del mese
+          </h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400">
+            Confronto con il mese precedente
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="p-4 rounded-lg border border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-950/40">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Entrate mese corrente
+            </p>
+            <p className="text-xl font-semibold text-emerald-600">
+              {formatCurrency(currentMonth.income)}
+            </p>
+            <p className="text-xs text-slate-400 mt-1">
+              {incomeDelta.percent === null
+                ? "Nessun dato mese precedente"
+                : `${incomeDelta.diff >= 0 ? "+" : ""}${incomeDelta.percent}%`}
+            </p>
+          </div>
+
+          <div className="p-4 rounded-lg border border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-950/40">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Uscite mese corrente
+            </p>
+            <p className="text-xl font-semibold text-rose-600">
+              {formatCurrency(currentMonth.expense)}
+            </p>
+            <p className="text-xs text-slate-400 mt-1">
+              {expenseDelta.percent === null
+                ? "Nessun dato mese precedente"
+                : `${expenseDelta.diff >= 0 ? "+" : ""}${expenseDelta.percent}%`}
+            </p>
+          </div>
+
+          <div className="p-4 rounded-lg border border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-950/40">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Saldo mese corrente
+            </p>
+            <p className="text-xl font-semibold text-sky-600">
+              {formatCurrency(currentMonth.income - currentMonth.expense)}
+            </p>
+            <p className="text-xs text-slate-400 mt-1">
+              {netDelta.percent === null
+                ? "Nessun dato mese precedente"
+                : `${netDelta.diff >= 0 ? "+" : ""}${netDelta.percent}%`}
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="p-4 rounded-lg border border-slate-100 dark:border-slate-800">
+            <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-3">
+              Budget per categoria (mese corrente)
+            </h3>
+            <div className="flex flex-col gap-3">
+              {categories.map((category) => {
+                const budgetValue = Number(budgets[category] || 0);
+                const spent = Number(currentMonth.perCategory[category] || 0);
+                const progress =
+                  budgetValue > 0 ? Math.min(spent / budgetValue, 1) : 0;
+                return (
+                  <div key={category} className="flex flex-col gap-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-slate-600 dark:text-slate-300">
+                        {category}
+                      </span>
+                      <span className="text-slate-400">
+                        {formatCurrency(spent)} / {formatCurrency(budgetValue)}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 h-2 bg-slate-100 rounded-full dark:bg-slate-800">
+                        <div
+                          className={`h-2 rounded-full ${
+                            progress >= 1 ? "bg-rose-500" : "bg-emerald-500"
+                          }`}
+                          style={{ width: `${progress * 100}%` }}
+                        />
+                      </div>
+                      <input
+                        type="number"
+                        placeholder="Budget"
+                        value={budgets[category] ?? ""}
+                        onChange={(event) =>
+                          setBudgets((prev) => ({
+                            ...prev,
+                            [category]: event.target.value,
+                          }))
+                        }
+                        className="w-28 h-8 border border-slate-200 rounded-md px-2 text-xs text-slate-700 bg-white dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="p-4 rounded-lg border border-slate-100 dark:border-slate-800">
+            <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-3">
+              Insight rapide
+            </h3>
+            <div className="flex flex-col gap-3 text-sm text-slate-600 dark:text-slate-300">
+              <div className="flex items-center justify-between">
+                <span>Categoria più onerosa</span>
+                <span className="font-semibold">
+                  {topCategory
+                    ? `${topCategory[0]} (${formatCurrency(topCategory[1])})`
+                    : "Nessun dato"}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Entrate vs Uscite</span>
+                <span className="font-semibold">
+                  {currentMonth.income === 0 && currentMonth.expense === 0
+                    ? "Nessun dato"
+                    : `${Math.round(
+                        (currentMonth.income /
+                          Math.max(currentMonth.expense, 1)) *
+                          100,
+                      )}%`}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Totale spese mese</span>
+                <span className="font-semibold">
+                  {formatCurrency(currentMonth.expense)}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Totale entrate mese</span>
+                <span className="font-semibold">
+                  {formatCurrency(currentMonth.income)}
+                </span>
+              </div>
+            </div>
+            <p className="text-xs text-slate-400 mt-4">
+              I dati sono calcolati sul mese corrente.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default InsightsPanel;

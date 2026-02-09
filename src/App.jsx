@@ -6,6 +6,7 @@ import TransactionList from "./components/TransactionList";
 import FilterBar from "./components/FilterBar";
 import SearchBar from "./components/SearchBar";
 import TransactionsChart from "./components/TransactionChart";
+import InsightsPanel from "./components/InsightsPanel";
 import ConfirmModal from "./components/ConfirmModal";
 import EditModal from "./components/EditModal";
 import EditTransactionForm from "./components/EditTransactionForm";
@@ -202,6 +203,7 @@ const App = () => {
 
         <BalanceCard transactions={filteredTransactions} />
         <TransactionsChart transactions={filteredTransactions} />
+        <InsightsPanel transactions={filteredTransactions} />
 
         <div className="bg-white/90 border border-slate-100 rounded-xl p-4 shadow-sm mb-6 dark:bg-slate-900/70 dark:border-slate-800">
           <div className="flex flex-col gap-4">
