@@ -12,6 +12,25 @@ import EditTransactionForm from "./components/EditTransactionForm";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 
+const buildCsv = (rows) => {
+  const headers = ["id", "name", "amount", "type", "category", "date"];
+  const escapeCsv = (value) => {
+    if (value === null || value === undefined) return "";
+    const stringValue = String(value);
+    const escaped = stringValue.replace(/"/g, '""');
+    return `="${escaped}"`;
+  };
+
+  const csvRows = [
+    headers.join(","),
+    ...rows.map((row) =>
+      headers.map((header) => escapeCsv(row[header])).join(","),
+    ),
+  ];
+
+  return csvRows.join("\n");
+};
+
 const App = () => {
   const { transactions, addTransaction, updateTransaction, removeTransaction } =
     useTransactions();
@@ -32,6 +51,26 @@ const App = () => {
 
   const [sortField, setSortField] = useState("date");
   const [sortDirection, setSortDirection] = useState("asc");
+
+  const handleExportCsv = () => {
+    if (transactions.length === 0) {
+      toast.error("Nessuna transazione da esportare");
+      return;
+    }
+
+    const csvContent = buildCsv(transactions);
+    const blob = new Blob([csvContent], {
+      type: "text/csv;charset=utf-8;",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const timestamp = new Date().toISOString().slice(0, 10);
+
+    link.href = url;
+    link.download = `transactions-${timestamp}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
 
   // --- Funzioni riutilizzabili per chiudere modali ---
   const closeDeleteModal = () => {
@@ -118,7 +157,7 @@ const App = () => {
       <BalanceCard transactions={filteredTransactions} />
       <TransactionsChart transactions={filteredTransactions} />
 
-      <div className="flex flex-col md:flex-row md:items-end md:gap-4 mb-4">
+      <div className="flex flex-col md:flex-row md:items-end md:gap-4 gap-3 mb-4">
         <SearchBar search={search} setSearch={setSearch} />
         <FilterBar
           filter={filter}
@@ -130,6 +169,13 @@ const App = () => {
           setSortField={setSortField}
           setSortDirection={setSortDirection}
         />
+        <button
+          type="button"
+          onClick={handleExportCsv}
+          className="w-full md:w-auto h-10 bg-gray-900 text-white px-4 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer"
+        >
+          Esporta CSV
+        </button>
       </div>
 
       {/* Form aggiunta */}

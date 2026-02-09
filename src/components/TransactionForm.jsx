@@ -16,7 +16,6 @@ const TransactionForm = ({ addTransaction }) => {
     if (!name || !amount) return;
 
     addTransaction({
-      id: Date.now(),
       name,
       amount: Number(amount),
       type,

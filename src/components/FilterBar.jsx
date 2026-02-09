@@ -19,7 +19,7 @@ const FilterBar = ({
   };
 
   return (
-    <div className="flex flex-wrap gap-2 mb-4 items-end">
+    <div className="flex flex-wrap gap-2 items-end">
       {/* Filtro tipo */}
       <button
         onClick={() => setFilter("all")}
