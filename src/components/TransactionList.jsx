@@ -10,6 +10,9 @@ const categoryColors = {
 
 const TransactionList = ({
   transactions,
+  onSort,
+  sortField,
+  sortDirection,
   openDeleteModal,
   onEdit,
   highlightedId,
@@ -28,11 +31,62 @@ const TransactionList = ({
       <table className="w-full border-collapse">
         <thead>
           <tr className="text-left text-gray-600 border-b">
-            <th className="p-2">Nome</th>
-            <th className="p-2">Tipo</th>
-            <th className="p-2">Data</th>
-            <th className="p-2">Categoria</th>
-            <th className="p-2 text-right">Importo</th>
+            <th
+              onClick={() => onSort("name")}
+              className="p-2 cursor-pointer select-none hover:text-blue-600 transition-colors"
+            >
+              Nome
+              {sortField === "name" && (
+                <span className="ml-1">
+                  {sortDirection === "asc" ? "↑" : "↓"}
+                </span>
+              )}
+            </th>
+            <th
+              onClick={() => onSort("type")}
+              className="p-2 cursor-pointer select-none hover:text-blue-600 transition-colors"
+            >
+              Tipo
+              {sortField === "type" && (
+                <span className="ml-1">
+                  {sortDirection === "asc" ? "↑" : "↓"}
+                </span>
+              )}
+            </th>
+            <th
+              onClick={() => onSort("date")}
+              className="p-2 cursor-pointer select-none hover:text-blue-600 transition-colors"
+            >
+              Data
+              {sortField === "date" && (
+                <span className="ml-1">
+                  {sortDirection === "asc" ? "↑" : "↓"}
+                </span>
+              )}
+            </th>
+            <th
+              onClick={() => onSort("category")}
+              className="p-2 cursor-pointer select-none hover:text-blue-600 transition-colors"
+            >
+              Categoria
+              {sortField === "category" && (
+                <span className="ml-1">
+                  {sortDirection === "asc" ? "↑" : "↓"}
+                </span>
+              )}
+            </th>
+            <th
+              onClick={() => onSort("amount")}
+              className="p-2 text-right cursor-pointer select-none hover:text-blue-600 transition-colors"
+            >
+              Importo
+              {sortField === "amount" && (
+                <span className="ml-1 inline-block">
+                  {sortDirection === "asc" ? "↑" : "↓"}
+                </span>
+              )}
+            </th>
+
             <th className="p-2 text-right">Azioni</th>
           </tr>
         </thead>

@@ -30,6 +30,9 @@ const App = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
+  const [sortField, setSortField] = useState("date");
+  const [sortDirection, setSortDirection] = useState("asc");
+
   // --- Funzioni riutilizzabili per chiudere modali ---
   const closeDeleteModal = () => {
     setIsDeleteModalOpen(false);
@@ -50,6 +53,24 @@ const App = () => {
       if (endDate && t.date > endDate) return false;
       return true;
     });
+
+  //Transazioni ordinate
+  const sortedTransactions = [...filteredTransactions].sort((a, b) => {
+    if (!sortField) return 0;
+
+    let valueA = a[sortField];
+    let valueB = b[sortField];
+
+    // stringhe
+    if (typeof valueA === "string") {
+      return sortDirection === "asc"
+        ? valueA.localeCompare(valueB)
+        : valueB.localeCompare(valueA);
+    }
+
+    // numeri / date
+    return sortDirection === "asc" ? valueA - valueB : valueB - valueA;
+  });
 
   // --- Delete ---
   const openDeleteModal = (id) => {
@@ -79,6 +100,16 @@ const App = () => {
     return () => clearTimeout(timer);
   }, [highlightedId]);
 
+  //Funzione che ordina i campi delle colonne
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortField(field);
+      setSortDirection("asc");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       <Toaster position="top-right" />
@@ -96,6 +127,8 @@ const App = () => {
           endDate={endDate}
           setStartDate={setStartDate}
           setEndDate={setEndDate}
+          setSortField={setSortField}
+          setSortDirection={setSortDirection}
         />
       </div>
 
@@ -121,7 +154,10 @@ const App = () => {
 
       {/* Lista transazioni */}
       <TransactionList
-        transactions={filteredTransactions}
+        transactions={sortedTransactions}
+        onSort={handleSort}
+        sortField={sortField}
+        sortDirection={sortDirection}
         openDeleteModal={openDeleteModal}
         onEdit={openEditModal}
         highlightedId={highlightedId}

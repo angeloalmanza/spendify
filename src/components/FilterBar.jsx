@@ -7,11 +7,15 @@ const FilterBar = ({
   endDate,
   setStartDate,
   setEndDate,
+  setSortField,
+  setSortDirection,
 }) => {
   const resetFilters = () => {
     setFilter("all");
     setStartDate("");
     setEndDate("");
+    setSortField("date");
+    setSortDirection("asc");
   };
 
   return (
