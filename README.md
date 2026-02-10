@@ -6,19 +6,20 @@ Una web app completa per gestire entrate e uscite con dashboard interattiva, ana
 
 - Live: [Aggiungi il link del deploy](https://example.com)
 
-## Screenshot
+### 📊 Analisi e trend
 
-Sostituisci le immagini con i tuoi screenshot quando sono pronti:
+![Charts](./docs/charts.png)
+Trend mensili di entrate, uscite e saldo netto con grafici interattivi.
 
-<table>
-  <tr>
-    <td><img src="./docs/Screenshot1.png" alt="Dashboard Screenshot 1" width="100%"></td>
-    <td><img src="./docs/Screenshot2.png" alt="Dashboard Screenshot 2" width="100%"></td>
-    <td><img src="./docs/Screenshot3.png" alt="Dashboard Screenshot 3" width="100%"></td>
-  </tr>
-</table>
+### 📈 Confronto mensile e budget
 
-> Tip: crea la cartella `docs/` e inserisci gli screenshot come `screenshot-1.png` e `screenshot-2.png`.
+![Monthly comparison](./docs/budget.png)
+Confronto con il mese precedente e gestione dei budget per categoria.
+
+### 🔍 Filtri, inserimento e gestione transazioni
+
+![Transactions](./docs/transactions.png)
+Ricerca, filtri avanzati, ordinamento colonne e CRUD delle transazioni.
 
 ## Funzionalita principali
 
