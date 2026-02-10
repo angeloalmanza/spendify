@@ -155,7 +155,7 @@ const TransactionsChart = ({ transactions }) => {
   const categoryHasData = hasExpenseCategories || hasIncomeCategories;
 
   return (
-    <div className="bg-white/90 border border-slate-100 p-5 rounded-xl shadow-sm mb-6 dark:bg-slate-900/70 dark:border-slate-800">
+    <div className="glass-card p-5 rounded-2xl mb-6">
       <div className="flex flex-col gap-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="w-full h-72">

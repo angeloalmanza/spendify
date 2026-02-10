@@ -30,7 +30,7 @@ const EditModal = ({ isOpen, onClose, children }) => {
       onClick={onClose}
     >
       <div
-        className={`bg-white rounded-lg shadow-lg w-full max-w-xl p-4 transform transition-transform duration-200 dark:bg-slate-900 dark:text-slate-100 ${
+        className={`glass-card rounded-2xl w-full max-w-xl p-4 transform transition-transform duration-200 dark:text-slate-100 ${
           isOpen ? "scale-100" : "scale-95"
         }`}
         onClick={(e) => e.stopPropagation()}

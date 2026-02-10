@@ -38,7 +38,7 @@ const TransactionList = ({
 
   if (transactions.length === 0)
     return (
-      <div className="bg-white/90 border border-slate-100 rounded-xl p-8 text-center text-slate-500 shadow-sm dark:bg-slate-900/70 dark:border-slate-800">
+      <div className="glass-card rounded-2xl p-8 text-center text-slate-500">
         <p className="text-lg font-medium text-slate-700 dark:text-slate-100">
           Nessuna transazione
         </p>
@@ -84,7 +84,7 @@ const TransactionList = ({
   };
 
   return (
-    <div className="bg-white/90 border border-slate-100 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900/70 dark:border-slate-800">
+    <div className="glass-card rounded-2xl overflow-hidden">
       <div className="max-h-105 overflow-auto">
         <table className="w-full border-collapse text-sm">
           <thead>

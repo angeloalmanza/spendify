@@ -169,7 +169,7 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900">
+    <div className="min-h-screen app-shell">
       <Toaster position="top-right" />
       <div className="mx-auto max-w-6xl px-4 py-6 md:py-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-6">
@@ -177,7 +177,7 @@ const App = () => {
             <p className="text-xs uppercase tracking-wide text-slate-400 dark:text-slate-500">
               Dashboard personale
             </p>
-            <h1 className="text-3xl md:text-4xl font-semibold text-slate-900 dark:text-slate-100">
+            <h1 className="text-3xl md:text-4xl font-semibold text-gradient">
               Expense Tracker
             </h1>
           </div>
@@ -187,14 +187,14 @@ const App = () => {
               onClick={() =>
                 setTheme((current) => (current === "dark" ? "light" : "dark"))
               }
-              className="w-full sm:w-auto h-10 px-4 rounded-lg border border-slate-200 text-slate-700 bg-white hover:bg-slate-50 transition-colors dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
+              className="w-full sm:w-auto h-10 px-4 rounded-lg btn-soft transition-colors cursor-pointer"
             >
               {theme === "dark" ? "Light mode" : "Dark mode"}
             </button>
             <button
               type="button"
               onClick={handleExportCsv}
-              className="w-full sm:w-auto h-10 bg-slate-900 text-white px-4 rounded-lg hover:bg-slate-800 transition-colors dark:bg-slate-200 dark:text-slate-900 dark:hover:bg-white"
+              className="w-full sm:w-auto h-10 px-4 rounded-lg btn-primary transition-colors cursor-pointer"
             >
               Esporta CSV
             </button>
@@ -205,7 +205,7 @@ const App = () => {
         <TransactionsChart transactions={filteredTransactions} />
         <InsightsPanel transactions={filteredTransactions} />
 
-        <div className="bg-white/90 border border-slate-100 rounded-xl p-4 shadow-sm mb-6 dark:bg-slate-900/70 dark:border-slate-800">
+        <div className="glass-card rounded-2xl p-4 mb-6">
           <div className="flex flex-col gap-4">
             <div>
               <p className="text-sm font-medium text-slate-700 dark:text-slate-200">

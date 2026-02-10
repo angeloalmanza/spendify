@@ -7,7 +7,7 @@ const ConfirmModal = ({ isOpen, onClose, onConfirm }) => {
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
 
       {/* Modale */}
-      <div className="relative bg-white rounded-lg shadow-lg p-6 w-full max-w-sm dark:bg-slate-900 dark:text-slate-100">
+      <div className="relative glass-card rounded-2xl p-6 w-full max-w-sm dark:text-slate-100">
         <h2 className="text-xl font-semibold mb-2">Conferma eliminazione</h2>
         <p className="text-gray-600 mb-4 dark:text-slate-400">
           Sei sicuro di voler eliminare questa transazione?

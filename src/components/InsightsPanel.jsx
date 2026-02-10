@@ -98,7 +98,7 @@ const InsightsPanel = ({ transactions }) => {
   )[0];
 
   return (
-    <div className="bg-white/90 border border-slate-100 p-5 rounded-xl shadow-sm mb-6 dark:bg-slate-900/70 dark:border-slate-800">
+    <div className="glass-card p-5 rounded-2xl mb-6">
       <div className="flex flex-col gap-6">
         <div>
           <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">
@@ -110,7 +110,7 @@ const InsightsPanel = ({ transactions }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 rounded-lg border border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-950/40">
+          <div className="p-4 rounded-xl border border-slate-100 bg-slate-50/70 dark:border-slate-800 dark:bg-slate-950/40">
             <p className="text-sm text-slate-500 dark:text-slate-400">
               Entrate mese corrente
             </p>
@@ -124,7 +124,7 @@ const InsightsPanel = ({ transactions }) => {
             </p>
           </div>
 
-          <div className="p-4 rounded-lg border border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-950/40">
+          <div className="p-4 rounded-xl border border-slate-100 bg-slate-50/70 dark:border-slate-800 dark:bg-slate-950/40">
             <p className="text-sm text-slate-500 dark:text-slate-400">
               Uscite mese corrente
             </p>
@@ -138,7 +138,7 @@ const InsightsPanel = ({ transactions }) => {
             </p>
           </div>
 
-          <div className="p-4 rounded-lg border border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-950/40">
+          <div className="p-4 rounded-xl border border-slate-100 bg-slate-50/70 dark:border-slate-800 dark:bg-slate-950/40">
             <p className="text-sm text-slate-500 dark:text-slate-400">
               Saldo mese corrente
             </p>
@@ -154,7 +154,7 @@ const InsightsPanel = ({ transactions }) => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="p-4 rounded-lg border border-slate-100 dark:border-slate-800">
+          <div className="p-4 rounded-xl border border-slate-100 dark:border-slate-800">
             <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-3">
               Budget per categoria (mese corrente)
             </h3>
@@ -202,7 +202,7 @@ const InsightsPanel = ({ transactions }) => {
             </div>
           </div>
 
-          <div className="p-4 rounded-lg border border-slate-100 dark:border-slate-800">
+          <div className="p-4 rounded-xl border border-slate-100 dark:border-slate-800">
             <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-3">
               Insight rapide
             </h3>

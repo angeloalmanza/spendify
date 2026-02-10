@@ -35,7 +35,7 @@ const TransactionForm = ({ addTransaction }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white/90 border border-slate-100 p-4 rounded-xl shadow-sm mb-6 flex flex-col gap-4 dark:bg-slate-900/70 dark:border-slate-800"
+      className="glass-card p-4 rounded-2xl mb-6 flex flex-col gap-4"
     >
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">
@@ -121,7 +121,7 @@ const TransactionForm = ({ addTransaction }) => {
         <button
           type="submit"
           disabled={!name || !amount}
-          className="disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 h-10 bg-slate-900 text-white px-4 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+          className="disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 h-10 px-4 rounded-lg transition-colors cursor-pointer btn-primary"
         >
           <PlusCircle className="w-4 h-4" />
           Aggiungi
