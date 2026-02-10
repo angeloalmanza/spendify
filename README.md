@@ -12,9 +12,9 @@ Sostituisci le immagini con i tuoi screenshot quando sono pronti:
 
 <table>
   <tr>
-    <td><img src="./docs/screenshot1.png" alt="Dashboard Screenshot 1" width="100%"></td>
-    <td><img src="./docs/screenshot2.png" alt="Dashboard Screenshot 2" width="100%"></td>
-    <td><img src="./docs/screenshot3.png" alt="Dashboard Screenshot 3" width="100%"></td>
+    <td><img src="./docs/Screenshot1.png" alt="Dashboard Screenshot 1" width="100%"></td>
+    <td><img src="./docs/Screenshot2.png" alt="Dashboard Screenshot 2" width="100%"></td>
+    <td><img src="./docs/Screenshot3.png" alt="Dashboard Screenshot 3" width="100%"></td>
   </tr>
 </table>
 
