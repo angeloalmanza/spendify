@@ -4,7 +4,7 @@ Una web app completa per gestire entrate e uscite con dashboard interattiva, ana
 
 ## Demo
 
-- Live: [Aggiungi il link del deploy](https://example.com)
+- Live: [spendify-app](https://spendify-app.netlify.app/)
 
 ### 📊 Analisi e trend
 
