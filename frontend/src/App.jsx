@@ -208,7 +208,7 @@ const App = () => {
               Dashboard personale
             </p>
             <h1 className="text-3xl md:text-4xl font-semibold text-gradient">
-              Expense Tracker
+              Spendify
             </h1>
             {user && (
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">

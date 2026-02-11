@@ -35,7 +35,7 @@ const LoginPage = () => {
     <div className="min-h-screen flex items-center justify-center app-shell px-4">
       <div className="glass-card rounded-2xl p-8 w-full max-w-md">
         <h1 className="text-3xl font-semibold text-gradient mb-2">
-          Expense Tracker
+          Spendify
         </h1>
         <p className="text-sm text-slate-400 mb-6">Accedi al tuo account</p>
 

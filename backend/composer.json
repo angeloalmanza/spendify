@@ -1,7 +1,7 @@
 {
     "name": "laravel/laravel",
     "type": "project",
-    "description": "Expense Tracker Backend",
+    "description": "Spendify Backend",
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.0",

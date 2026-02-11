@@ -1,67 +1,89 @@
-# Expense Tracker
+# Spendify
 
-Una web app completa per gestire entrate e uscite con dashboard interattiva, analisi avanzate e una UI moderna. Pensata per essere veloce, chiara e piacevole da usare anche con molti dati.
+Una web app fullstack per gestire entrate e uscite con dashboard interattiva, analisi avanzate e una UI moderna. Autenticazione con email e password, dati persistenti su database e deploy su cloud.
 
 ## Demo
 
-- Live: [spendify-app](https://spendify-app.netlify.app/)
+Live: [spendify-app.netlify.app](https://spendify-app.netlify.app/)
 
-### 📊 Analisi e trend
+### Login
+
+![Login](./docs/login.png)
+Autenticazione con email e password. Sessione persistente tramite token.
+
+### Dashboard — Analisi e trend
 
 ![Charts](./docs/charts.png)
 Trend mensili di entrate, uscite e saldo netto con grafici interattivi.
 
-### 📈 Confronto mensile e budget
+### Dashboard — Confronto mensile
 
 ![Monthly comparison](./docs/budget.png)
-Confronto con il mese precedente e gestione dei budget per categoria.
+Confronto con il mese precedente e analisi per categoria.
 
-### 🔍 Filtri, inserimento e gestione transazioni
+### Dashboard — Transazioni
 
 ![Transactions](./docs/transactions.png)
-Ricerca, filtri avanzati, ordinamento colonne e CRUD delle transazioni.
+Ricerca, filtri avanzati, ordinamento colonne e CRUD completo delle transazioni.
 
-## Funzionalita principali
+## Funzionalità principali
 
-- Dashboard completa con KPI, trend mensili e breakdown per categorie
-- Grafici interattivi (trend entrate/uscite + saldo, pie per categorie)
-- Analisi del mese con confronto al mese precedente
-- Budget per categoria con progress bar e salvataggio locale
-- Dark/Light mode con toggle
+- Autenticazione con registrazione e login (email + password)
+- Dashboard completa con KPI, trend mensili e breakdown per categoria
+- Grafici interattivi (andamento entrate/uscite, torta per categoria)
 - Ricerca e filtri combinabili per tipo, data e testo
-- Export CSV di tutte le transazioni
-- Drag & Drop per riordinare la tabella (solo visivo)
-- Persistenza locale tramite `localStorage`
+- Ordinamento per qualsiasi colonna
+- Aggiunta, modifica ed eliminazione transazioni
+- Export CSV e JSON di tutte le transazioni
+- Dark / Light mode con preferenza salvata
+- Dati persistenti su database PostgreSQL
 
 ## Tech Stack
 
-- React + Vite
+### Frontend
+- React 19 + Vite
 - Tailwind CSS v4
 - Recharts
 - Lucide Icons
-- LocalStorage
+- Axios
+- React Router
 
-## Avvio rapido
+### Backend
+- Laravel 11
+- Laravel Sanctum (autenticazione token)
+- PostgreSQL
+
+### Infrastructure
+- Docker + Docker Compose (sviluppo locale)
+- Netlify (frontend)
+- Render (backend)
+- Neon (database PostgreSQL)
+
+## Avvio locale con Docker
 
 ```bash
-npm install
-npm run dev
+docker compose up --build
 ```
 
-## Build
-
-```bash
-npm run build
-npm run preview
-```
+App disponibile su [http://localhost:5173](http://localhost:5173)
 
 ## Struttura del progetto
 
-- `src/App.jsx` — layout principale e wiring dei componenti
-- `src/components/` — componenti UI, grafici, modali
-- `src/hook/useTransactions.js` — logica dati e persistenza
-
-## Note
-
-- Il drag & drop e solo visivo e non salva l ordine
-- I dati restano salvati in `localStorage`
+```
+spendify/
+├── docker-compose.yml
+├── frontend/               # React + Vite
+│   ├── src/
+│   │   ├── api/            # Axios client
+│   │   ├── context/        # AuthContext
+│   │   ├── hook/           # useAuth, useTransactions
+│   │   ├── pages/          # LoginPage, RegisterPage
+│   │   └── components/     # UI components
+│   └── ...
+└── backend/                # Laravel 11
+    ├── app/
+    │   ├── Http/Controllers/
+    │   └── Models/
+    ├── database/migrations/
+    └── routes/api.php
+```
