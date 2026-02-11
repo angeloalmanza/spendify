@@ -91,6 +91,26 @@ const App = () => {
     URL.revokeObjectURL(url);
   };
 
+  const handleExportJson = () => {
+    if (transactions.length === 0) {
+      toast.error("Nessuna transazione da esportare");
+      return;
+    }
+
+    const jsonContent = JSON.stringify(transactions, null, 2);
+    const blob = new Blob([jsonContent], {
+      type: "application/json;charset=utf-8;",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const timestamp = new Date().toISOString().slice(0, 10);
+
+    link.href = url;
+    link.download = `transactions-${timestamp}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   // --- Funzioni riutilizzabili per chiudere modali ---
   const closeDeleteModal = () => {
     setIsDeleteModalOpen(false);
@@ -197,6 +217,13 @@ const App = () => {
               className="w-full sm:w-auto h-10 px-4 rounded-lg btn-primary transition-colors cursor-pointer"
             >
               Esporta CSV
+            </button>
+            <button
+              type="button"
+              onClick={handleExportJson}
+              className="w-full sm:w-auto h-10 px-4 rounded-lg btn-primary transition-colors cursor-pointer"
+            >
+              Esporta JSON
             </button>
           </div>
         </div>
