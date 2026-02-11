@@ -35,6 +35,7 @@ const buildCsv = (rows) => {
 
 const App = () => {
   const { user, logout } = useAuthContext();
+  const [loggingOut, setLoggingOut] = useState(false);
   const { transactions, addTransaction, updateTransaction, removeTransaction } =
     useTransactions();
 
@@ -152,9 +153,13 @@ const App = () => {
     setIsDeleteModalOpen(true);
   };
 
-  const confirmDelete = () => {
-    removeTransaction(transactionToDelete);
-    toast.success("Transazione eliminata");
+  const confirmDelete = async () => {
+    try {
+      await removeTransaction(transactionToDelete);
+      toast.success("Transazione eliminata");
+    } catch {
+      toast.error("Errore durante l'eliminazione");
+    }
     closeDeleteModal();
   };
 
@@ -183,11 +188,13 @@ const App = () => {
   };
 
   const handleLogout = async () => {
+    setLoggingOut(true);
     try {
       await logout();
       toast.success("Logout effettuato");
     } catch {
       toast.error("Errore durante il logout");
+      setLoggingOut(false);
     }
   };
 
@@ -239,9 +246,10 @@ const App = () => {
             <button
               type="button"
               onClick={handleLogout}
-              className="w-full sm:w-auto h-10 px-4 rounded-lg btn-soft transition-colors cursor-pointer"
+              disabled={loggingOut}
+              className="w-full sm:w-auto h-10 px-4 rounded-lg btn-soft transition-colors cursor-pointer disabled:opacity-60"
             >
-              Logout
+              {loggingOut ? "Uscita..." : "Logout"}
             </button>
           </div>
         </div>

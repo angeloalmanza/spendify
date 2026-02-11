@@ -14,6 +14,7 @@ const EditTransactionForm = ({
   const [type, setType] = useState("income");
   const [category, setCategory] = useState("Cibo");
   const [date, setDate] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const nameInputRef = useRef(null);
 
@@ -31,26 +32,32 @@ const EditTransactionForm = ({
     }
   }, [editingTransaction]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!name || !amount || Number(amount) <= 0) return;
 
-    updateTransaction({
-      ...editingTransaction,
-      name,
-      amount: Number(amount),
-      type,
-      category,
-      date,
-    });
+    setLoading(true);
+    try {
+      await updateTransaction({
+        ...editingTransaction,
+        name,
+        amount: Number(amount),
+        type,
+        category,
+        date,
+      });
 
-    toast.success(`${type === "income" ? "Entrata" : "Spesa"} modificata`);
-
-    onClose();
+      toast.success(`${type === "income" ? "Entrata" : "Spesa"} modificata`);
+      onClose();
+    } catch {
+      toast.error("Errore durante il salvataggio");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const isDisabled = !name || !amount || Number(amount) <= 0;
+  const isDisabled = !name || !amount || Number(amount) <= 0 || loading;
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-wrap gap-3">
@@ -119,7 +126,7 @@ const EditTransactionForm = ({
           `}
         >
           <Save className="w-4 h-4" />
-          Salva modifiche
+          {loading ? "Salvataggio..." : "Salva modifiche"}
         </button>
       </div>
     </form>

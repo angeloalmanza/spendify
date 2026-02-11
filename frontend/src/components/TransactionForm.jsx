@@ -10,26 +10,34 @@ const TransactionForm = ({ addTransaction }) => {
   const [type, setType] = useState("income");
   const [category, setCategory] = useState("Cibo");
   const [date, setDate] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !amount || !date) return;
 
-    addTransaction({
-      name,
-      amount: Number(amount),
-      type,
-      category,
-      date,
-    });
+    setLoading(true);
+    try {
+      await addTransaction({
+        name,
+        amount: Number(amount),
+        type,
+        category,
+        date,
+      });
 
-    toast.success(`${type === "income" ? "Entrata" : "Spesa"} aggiunta`);
+      toast.success(`${type === "income" ? "Entrata" : "Spesa"} aggiunta`);
 
-    setName("");
-    setAmount("");
-    setType("income");
-    setCategory("Cibo");
-    setDate("");
+      setName("");
+      setAmount("");
+      setType("income");
+      setCategory("Cibo");
+      setDate("");
+    } catch {
+      toast.error("Errore durante il salvataggio");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -120,11 +128,11 @@ const TransactionForm = ({ addTransaction }) => {
       <div className="flex justify-end">
         <button
           type="submit"
-          disabled={!name || !amount}
+          disabled={!name || !amount || loading}
           className="disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 h-10 px-4 rounded-lg transition-colors cursor-pointer btn-primary"
         >
           <PlusCircle className="w-4 h-4" />
-          Aggiungi
+          {loading ? "Salvataggio..." : "Aggiungi"}
         </button>
       </div>
     </form>
