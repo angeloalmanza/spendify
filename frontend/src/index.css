@@ -99,7 +99,7 @@ body {
 .app-shell::after {
   content: "";
   position: absolute;
-  inset: auto -30% -40% -30%;
+  inset: auto -30% -80% -30%;
   height: 520px;
   background: radial-gradient(
     circle at bottom,

@@ -45,7 +45,13 @@ const useAuth = () => {
     setUser(null);
   };
 
-  return { user, loading, login, register, logout };
+  const updateProfile = async (data) => {
+    const res = await client.put('/api/profile', data);
+    setUser(res.data);
+    return res.data;
+  };
+
+  return { user, loading, login, register, logout, updateProfile };
 };
 
 export default useAuth;

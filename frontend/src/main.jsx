@@ -6,6 +6,7 @@ import { AuthProvider, useAuthContext } from './context/AuthContext'
 import App from './App.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
+import ProfilePage from './pages/ProfilePage.jsx'
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuthContext()
@@ -26,6 +27,7 @@ const Root = () => (
         <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
         <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
         <Route path="/" element={<ProtectedRoute><App /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

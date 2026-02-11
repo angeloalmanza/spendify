@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import useTransactions from "./hook/useTransactions";
 import { useAuthContext } from "./context/AuthContext";
 import BalanceCard from "./components/BalanceCard";
@@ -211,12 +212,21 @@ const App = () => {
               Spendify
             </h1>
             {user && (
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                {user.avatar && (
-                  <img src={user.avatar} alt="" className="inline-block w-5 h-5 rounded-full mr-1 align-middle" />
+              <Link
+                to="/profile"
+                className="inline-flex items-center gap-2 mt-1.5 px-3 py-1.5 rounded-full btn-soft text-sm hover:border-indigo-400 transition-colors"
+                title="Vai al profilo"
+              >
+                {user.avatar ? (
+                  <img src={user.avatar} alt="" className="w-6 h-6 rounded-full" />
+                ) : (
+                  <span className="w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-semibold">
+                    {user.name.charAt(0).toUpperCase()}
+                  </span>
                 )}
-                {user.name}
-              </p>
+                <span className="text-slate-600 dark:text-slate-300">{user.name}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </Link>
             )}
           </div>
           <div className="flex flex-col sm:flex-row gap-2">
