@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useTransactions from "./hook/useTransactions";
+import { useAuthContext } from "./context/AuthContext";
 import BalanceCard from "./components/BalanceCard";
 import TransactionForm from "./components/TransactionForm";
 import TransactionList from "./components/TransactionList";
@@ -33,6 +34,7 @@ const buildCsv = (rows) => {
 };
 
 const App = () => {
+  const { user, logout } = useAuthContext();
   const { transactions, addTransaction, updateTransaction, removeTransaction } =
     useTransactions();
 
@@ -111,7 +113,6 @@ const App = () => {
     URL.revokeObjectURL(url);
   };
 
-  // --- Funzioni riutilizzabili per chiudere modali ---
   const closeDeleteModal = () => {
     setIsDeleteModalOpen(false);
     setTransactionToDelete(null);
@@ -122,7 +123,6 @@ const App = () => {
     setEditingTransaction(null);
   };
 
-  // --- Filter + Search ---
   const filteredTransactions = transactions
     .filter((t) => (filter === "all" ? true : t.type === filter))
     .filter((t) => t.name.toLowerCase().includes(search.toLowerCase()))
@@ -132,25 +132,21 @@ const App = () => {
       return true;
     });
 
-  //Transazioni ordinate
   const sortedTransactions = [...filteredTransactions].sort((a, b) => {
     if (!sortField) return 0;
 
     let valueA = a[sortField];
     let valueB = b[sortField];
 
-    // stringhe
     if (typeof valueA === "string") {
       return sortDirection === "asc"
         ? valueA.localeCompare(valueB)
         : valueB.localeCompare(valueA);
     }
 
-    // numeri / date
     return sortDirection === "asc" ? valueA - valueB : valueB - valueA;
   });
 
-  // --- Delete ---
   const openDeleteModal = (id) => {
     setTransactionToDelete(id);
     setIsDeleteModalOpen(true);
@@ -162,7 +158,6 @@ const App = () => {
     closeDeleteModal();
   };
 
-  // --- Edit ---
   const openEditModal = (transaction) => {
     setEditingTransaction(transaction);
     setIsEditModalOpen(true);
@@ -178,13 +173,21 @@ const App = () => {
     return () => clearTimeout(timer);
   }, [highlightedId]);
 
-  //Funzione che ordina i campi delle colonne
   const handleSort = (field) => {
     if (sortField === field) {
       setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
     } else {
       setSortField(field);
       setSortDirection("asc");
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast.success("Logout effettuato");
+    } catch {
+      toast.error("Errore durante il logout");
     }
   };
 
@@ -200,6 +203,14 @@ const App = () => {
             <h1 className="text-3xl md:text-4xl font-semibold text-gradient">
               Expense Tracker
             </h1>
+            {user && (
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                {user.avatar && (
+                  <img src={user.avatar} alt="" className="inline-block w-5 h-5 rounded-full mr-1 align-middle" />
+                )}
+                {user.name}
+              </p>
+            )}
           </div>
           <div className="flex flex-col sm:flex-row gap-2">
             <button
@@ -224,6 +235,13 @@ const App = () => {
               className="w-full sm:w-auto h-10 px-4 rounded-lg btn-primary transition-colors cursor-pointer"
             >
               Esporta JSON
+            </button>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="w-full sm:w-auto h-10 px-4 rounded-lg btn-soft transition-colors cursor-pointer"
+            >
+              Logout
             </button>
           </div>
         </div>
@@ -261,27 +279,24 @@ const App = () => {
           </div>
         </div>
 
-        {/* Form aggiunta */}
         <TransactionForm
-          addTransaction={(transaction) => {
-            addTransaction(transaction);
-            setHighlightedId(transaction.id);
+          addTransaction={async (transaction) => {
+            const saved = await addTransaction(transaction);
+            setHighlightedId(saved.id);
           }}
         />
 
-        {/* Modale edit */}
         <EditModal isOpen={isEditModalOpen} onClose={closeEditModal}>
           <EditTransactionForm
             editingTransaction={editingTransaction}
-            updateTransaction={(updated) => {
-              updateTransaction(updated);
-              setHighlightedId(updated.id);
+            updateTransaction={async (updated) => {
+              const saved = await updateTransaction(updated);
+              setHighlightedId(saved.id);
             }}
             onClose={closeEditModal}
           />
         </EditModal>
 
-        {/* Lista transazioni */}
         <TransactionList
           transactions={sortedTransactions}
           onSort={handleSort}
@@ -292,7 +307,6 @@ const App = () => {
           highlightedId={highlightedId}
         />
 
-        {/* Modale conferma delete */}
         <ConfirmModal
           isOpen={isDeleteModalOpen}
           onClose={closeDeleteModal}

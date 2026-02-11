@@ -4,6 +4,13 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  server: {
+    host: "0.0.0.0",
+    proxy: {
+      "/api": { target: "http://backend:8000", changeOrigin: true },
+      "/sanctum": { target: "http://backend:8000", changeOrigin: true },
+    },
+  },
   build: {
     outDir: "dist",
     assetsDir: "assets",
