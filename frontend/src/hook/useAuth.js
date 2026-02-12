@@ -51,7 +51,7 @@ const useAuth = () => {
     return res.data;
   };
 
-  return { user, loading, login, register, logout, updateProfile };
+  return { user, setUser, loading, login, register, logout, updateProfile };
 };
 
 export default useAuth;
