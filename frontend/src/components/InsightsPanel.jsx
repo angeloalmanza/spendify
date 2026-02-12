@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
 
 const categories = ["Cibo", "Affitto", "Svago", "Altro"];
 
@@ -26,12 +27,11 @@ const InsightsPanel = ({ transactions }) => {
   const [budgets, setBudgets] = useState(() => {
     const saved = localStorage.getItem("budgets");
     if (!saved) return {};
-    try {
-      return JSON.parse(saved);
-    } catch {
-      return {};
-    }
+    try { return JSON.parse(saved); } catch { return {}; }
   });
+
+  const [inputValues, setInputValues] = useState(() => ({ ...budgets }));
+  const [dismissedAlerts, setDismissedAlerts] = useState(new Set());
 
   useEffect(() => {
     localStorage.setItem("budgets", JSON.stringify(budgets));
@@ -97,6 +97,31 @@ const InsightsPanel = ({ transactions }) => {
     (a, b) => b[1] - a[1],
   )[0];
 
+  const exceededCategories = categories.filter((category) => {
+    const budgetValue = Number(budgets[category] || 0);
+    const spent = Number(currentMonth.perCategory[category] || 0);
+    return budgetValue > 0 && spent > budgetValue && !dismissedAlerts.has(category);
+  });
+
+  const confirmBudget = (category) => {
+    const value = Number(inputValues[category] || 0);
+    const spent = Number(currentMonth.perCategory[category] || 0);
+
+    setBudgets((prev) => ({ ...prev, [category]: value }));
+    setDismissedAlerts((prev) => {
+      const next = new Set(prev);
+      next.delete(category);
+      return next;
+    });
+
+    if (value > 0 && spent > value) {
+      toast.error(
+        `Budget ${category} superato! ${formatCurrency(spent)} / ${formatCurrency(value)}`,
+        { duration: 5000 }
+      );
+    }
+  };
+
   return (
     <div className="glass-card p-5 rounded-2xl mb-6">
       <div className="flex flex-col gap-6">
@@ -158,6 +183,31 @@ const InsightsPanel = ({ transactions }) => {
             <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-3">
               Budget per categoria (mese corrente)
             </h3>
+            {exceededCategories.length > 0 && (
+              <div className="mb-3 rounded-lg bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 px-3 py-2 flex flex-col gap-1">
+                {exceededCategories.map((category) => (
+                  <div key={category} className="flex items-center justify-between">
+                    <p className="text-xs text-rose-600 dark:text-rose-400">
+                      ⚠ Budget <strong>{category}</strong> superato di{" "}
+                      {formatCurrency(
+                        Number(currentMonth.perCategory[category] || 0) -
+                          Number(budgets[category] || 0)
+                      )}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setDismissedAlerts((prev) => new Set([...prev, category]))
+                      }
+                      className="text-rose-400 hover:text-rose-600 ml-2 text-xs cursor-pointer"
+                      title="Chiudi avviso"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
             <div className="flex flex-col gap-3">
               {categories.map((category) => {
                 const budgetValue = Number(budgets[category] || 0);
@@ -186,15 +236,21 @@ const InsightsPanel = ({ transactions }) => {
                       <input
                         type="number"
                         placeholder="Budget"
-                        value={budgets[category] ?? ""}
-                        onChange={(event) =>
-                          setBudgets((prev) => ({
-                            ...prev,
-                            [category]: event.target.value,
-                          }))
+                        value={inputValues[category] ?? ""}
+                        onChange={(e) =>
+                          setInputValues((prev) => ({ ...prev, [category]: e.target.value }))
                         }
-                        className="w-28 h-8 border border-slate-200 rounded-md px-2 text-xs text-slate-700 bg-white dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                        onKeyDown={(e) => e.key === "Enter" && confirmBudget(category)}
+                        className="w-24 h-8 border border-slate-200 rounded-md px-2 text-xs text-slate-700 bg-white dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
                       />
+                      <button
+                        type="button"
+                        onClick={() => confirmBudget(category)}
+                        className="h-8 px-2 rounded-md bg-indigo-500 hover:bg-indigo-600 text-white text-xs cursor-pointer"
+                        title="Conferma budget"
+                      >
+                        ✓
+                      </button>
                     </div>
                   </div>
                 );
