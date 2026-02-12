@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialAuthController extends Controller
@@ -17,15 +16,22 @@ class SocialAuthController extends Controller
     {
         $googleUser = Socialite::driver('google')->stateless()->user();
 
-        $user = User::updateOrCreate(
-            ['email' => $googleUser->getEmail()],
-            [
+        $user = User::where('email', $googleUser->getEmail())->first();
+
+        if ($user) {
+            // Utente esistente: aggiorna solo google_id, non toccare avatar né password
+            $user->google_id = $googleUser->getId();
+            $user->save();
+        } else {
+            // Nuovo utente: crea con avatar di Google come default
+            $user = User::create([
                 'name'      => $googleUser->getName(),
+                'email'     => $googleUser->getEmail(),
                 'google_id' => $googleUser->getId(),
                 'avatar'    => $googleUser->getAvatar(),
                 'password'  => null,
-            ]
-        );
+            ]);
+        }
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
