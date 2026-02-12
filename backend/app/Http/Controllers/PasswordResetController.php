@@ -18,11 +18,15 @@ class PasswordResetController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if ($user) {
-            $token = Password::createToken($user);
-            $frontendUrl = env('FRONTEND_URL', 'http://localhost:5173');
-            $resetUrl = "{$frontendUrl}/reset-password?token={$token}&email=" . urlencode($user->email);
+            try {
+                $token = Password::createToken($user);
+                $frontendUrl = env('FRONTEND_URL', 'http://localhost:5173');
+                $resetUrl = "{$frontendUrl}/reset-password?token={$token}&email=" . urlencode($user->email);
 
-            Mail::to($user->email)->send(new PasswordResetMail($user, $resetUrl));
+                Mail::to($user->email)->send(new PasswordResetMail($user, $resetUrl));
+            } catch (\Throwable $e) {
+                return response()->json(['debug_error' => $e->getMessage()], 500);
+            }
         }
 
         // Risposta generica per evitare l'enumerazione delle email
