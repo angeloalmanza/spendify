@@ -1,6 +1,6 @@
 # Spendify
 
-Una web app fullstack per gestire entrate e uscite con dashboard interattiva, analisi avanzate e una UI moderna. Autenticazione con email e password, dati persistenti su database e deploy su cloud.
+Una web app fullstack per gestire entrate e uscite con dashboard interattiva, analisi avanzate e una UI moderna. Autenticazione con email/password e Google OAuth, reset password via email, dati persistenti su database e deploy su cloud.
 
 ## Demo
 
@@ -9,7 +9,7 @@ Live: [spendify-app.netlify.app](https://spendify-app.netlify.app/)
 ### Login
 
 ![Login](./docs/login.png)
-Autenticazione con email e password. Sessione persistente tramite token.
+Autenticazione con email e password o tramite Google OAuth. Sessione persistente tramite token.
 
 ### Dashboard — Analisi e trend
 
@@ -28,13 +28,15 @@ Ricerca, filtri avanzati, ordinamento colonne e CRUD completo delle transazioni.
 
 ## Funzionalità principali
 
-- Autenticazione con registrazione e login (email + password)
+- Autenticazione con email + password e **Google OAuth**
+- **Reset password** via email (Resend)
 - Dashboard completa con KPI, trend mensili e breakdown per categoria
 - Grafici interattivi (andamento entrate/uscite, torta per categoria)
 - Ricerca e filtri combinabili per tipo, data e testo
 - Ordinamento per qualsiasi colonna
 - Aggiunta, modifica ed eliminazione transazioni
 - Export CSV e JSON di tutte le transazioni
+- Profilo utente con selezione avatar
 - Dark / Light mode con preferenza salvata
 - Dati persistenti su database PostgreSQL
 
@@ -51,6 +53,8 @@ Ricerca, filtri avanzati, ordinamento colonne e CRUD completo delle transazioni.
 ### Backend
 - Laravel 11
 - Laravel Sanctum (autenticazione token)
+- Laravel Socialite (Google OAuth)
+- Resend (email transazionali)
 - PostgreSQL
 
 ### Infrastructure
@@ -77,7 +81,7 @@ spendify/
 │   │   ├── api/            # Axios client
 │   │   ├── context/        # AuthContext
 │   │   ├── hook/           # useAuth, useTransactions
-│   │   ├── pages/          # LoginPage, RegisterPage
+│   │   ├── pages/          # LoginPage, RegisterPage, ProfilePage, ...
 │   │   └── components/     # UI components
 │   └── ...
 └── backend/                # Laravel 11
