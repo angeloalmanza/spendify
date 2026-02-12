@@ -46,6 +46,7 @@ const App = () => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [transactionToDelete, setTransactionToDelete] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -155,13 +156,16 @@ const App = () => {
   };
 
   const confirmDelete = async () => {
+    setDeleting(true);
     try {
       await removeTransaction(transactionToDelete);
       toast.success("Transazione eliminata");
+      closeDeleteModal();
     } catch {
       toast.error("Errore durante l'eliminazione");
+    } finally {
+      setDeleting(false);
     }
-    closeDeleteModal();
   };
 
   const openEditModal = (transaction) => {
@@ -266,7 +270,7 @@ const App = () => {
 
         <BalanceCard transactions={filteredTransactions} />
         <TransactionsChart transactions={filteredTransactions} />
-        <InsightsPanel transactions={filteredTransactions} />
+        <InsightsPanel transactions={transactions} />
 
         <div className="glass-card rounded-2xl p-4 mb-6">
           <div className="flex flex-col gap-4">
@@ -329,6 +333,7 @@ const App = () => {
           isOpen={isDeleteModalOpen}
           onClose={closeDeleteModal}
           onConfirm={confirmDelete}
+          loading={deleting}
         />
       </div>
     </div>

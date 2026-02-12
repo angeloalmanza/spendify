@@ -30,7 +30,6 @@ const InsightsPanel = ({ transactions }) => {
     try { return JSON.parse(saved); } catch { return {}; }
   });
 
-  const [inputValues, setInputValues] = useState(() => ({ ...budgets }));
   const [dismissedAlerts, setDismissedAlerts] = useState(new Set());
 
   useEffect(() => {
@@ -104,10 +103,9 @@ const InsightsPanel = ({ transactions }) => {
   });
 
   const confirmBudget = (category) => {
-    const value = Number(inputValues[category] || 0);
+    const value = Number(budgets[category] || 0);
     const spent = Number(currentMonth.perCategory[category] || 0);
 
-    setBudgets((prev) => ({ ...prev, [category]: value }));
     setDismissedAlerts((prev) => {
       const next = new Set(prev);
       next.delete(category);
@@ -236,9 +234,9 @@ const InsightsPanel = ({ transactions }) => {
                       <input
                         type="number"
                         placeholder="Budget"
-                        value={inputValues[category] ?? ""}
+                        value={budgets[category] ?? ""}
                         onChange={(e) =>
-                          setInputValues((prev) => ({ ...prev, [category]: e.target.value }))
+                          setBudgets((prev) => ({ ...prev, [category]: e.target.value === "" ? "" : Number(e.target.value) }))
                         }
                         onKeyDown={(e) => e.key === "Enter" && confirmBudget(category)}
                         className="w-24 h-8 border border-slate-200 rounded-md px-2 text-xs text-slate-700 bg-white dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
