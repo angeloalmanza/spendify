@@ -32,6 +32,7 @@ Ricerca, filtri avanzati, ordinamento colonne e CRUD completo delle transazioni.
 - **Reset password** via email (Resend)
 - Dashboard completa con KPI, trend mensili e breakdown per categoria
 - Grafici interattivi (andamento entrate/uscite, torta per categoria)
+- **Categorie personalizzate** con colore a scelta e modifica inline (nome + colore)
 - **Budget per categoria** con avvisi toast e banner dismissibile quando il budget viene superato
 - Ricerca e filtri combinabili per tipo, data e testo
 - Ordinamento per qualsiasi colonna
@@ -81,7 +82,7 @@ spendify/
 │   ├── src/
 │   │   ├── api/            # Axios client
 │   │   ├── context/        # AuthContext
-│   │   ├── hook/           # useAuth, useTransactions
+│   │   ├── hook/           # useAuth, useTransactions, useCategories
 │   │   ├── pages/          # LoginPage, RegisterPage, ProfilePage, ...
 │   │   └── components/     # UI components
 │   └── ...
