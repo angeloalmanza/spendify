@@ -81,6 +81,38 @@ class BudgetTest extends TestCase
             ->assertJsonCount(0);
     }
 
+    public function test_user_can_delete_budget(): void
+    {
+        [$user, $token] = $this->authenticatedUser();
+
+        $budget = $user->budgets()->create(['category' => 'Cibo', 'amount' => 300]);
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->deleteJson("/api/budgets/{$budget->id}");
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('budgets', ['id' => $budget->id]);
+    }
+
+    public function test_user_cannot_delete_other_users_budget(): void
+    {
+        [$user1,] = $this->authenticatedUser();
+        $budget = $user1->budgets()->create(['category' => 'Cibo', 'amount' => 300]);
+
+        $user2 = User::create([
+            'name' => 'Other User',
+            'email' => 'other@example.com',
+            'password' => 'password123',
+        ]);
+        $token2 = $user2->createToken('auth_token')->plainTextToken;
+
+        $response = $this->withHeader('Authorization', "Bearer $token2")
+            ->deleteJson("/api/budgets/{$budget->id}");
+
+        $response->assertStatus(404);
+        $this->assertDatabaseHas('budgets', ['id' => $budget->id]);
+    }
+
     public function test_create_budget_validates_required_fields(): void
     {
         [, $token] = $this->authenticatedUser();

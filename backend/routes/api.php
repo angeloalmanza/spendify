@@ -25,3 +25,4 @@ Route::middleware('auth:sanctum')->put('/profile', [ProfileController::class, 'u
 
 Route::middleware('auth:sanctum')->get('/budgets', [BudgetController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/budgets', [BudgetController::class, 'store']);
+Route::middleware('auth:sanctum')->delete('/budgets/{budget}', [BudgetController::class, 'destroy']);

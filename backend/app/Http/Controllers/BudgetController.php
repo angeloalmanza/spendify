@@ -26,4 +26,12 @@ class BudgetController extends Controller
 
         return response()->json($budget, 201);
     }
+
+    public function destroy(Request $request, string $id)
+    {
+        $budget = $request->user()->budgets()->findOrFail($id);
+        $budget->delete();
+
+        return response()->json(null, 204);
+    }
 }

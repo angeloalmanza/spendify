@@ -102,6 +102,26 @@ const InsightsPanel = ({ transactions }) => {
     return budgetValue > 0 && spent > budgetValue && !dismissedAlerts.has(category);
   });
 
+  const deleteBudget = (category) => {
+    const current = budgets[category];
+    setBudgets((prev) => {
+      const next = { ...prev };
+      delete next[category];
+      return next;
+    });
+    setDismissedAlerts((prev) => {
+      const next = new Set(prev);
+      next.delete(category);
+      return next;
+    });
+    if (current) {
+      client.get("/api/budgets").then(({ data }) => {
+        const match = data.find((b) => b.category === category);
+        if (match) client.delete(`/api/budgets/${match.id}`).catch(() => {});
+      }).catch(() => {});
+    }
+  };
+
   const confirmBudget = (category) => {
     const value = Number(budgets[category] || 0);
     const spent = Number(currentMonth.perCategory[category] || 0);
@@ -251,6 +271,16 @@ const InsightsPanel = ({ transactions }) => {
                       >
                         ✓
                       </button>
+                      {budgets[category] != null && budgets[category] !== "" && (
+                        <button
+                          type="button"
+                          onClick={() => deleteBudget(category)}
+                          className="h-8 px-2 rounded-md bg-rose-500 hover:bg-rose-600 text-white text-xs cursor-pointer"
+                          title="Elimina budget"
+                        >
+                          ✕
+                        </button>
+                      )}
                     </div>
                   </div>
                 );
