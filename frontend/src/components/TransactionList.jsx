@@ -82,7 +82,7 @@ const TransactionList = ({
 
   return (
     <div className="glass-card rounded-2xl overflow-hidden">
-      <div>
+      <div className="overflow-x-auto">
         <table className="w-full border-collapse text-sm">
           <thead>
             <tr className="text-left text-slate-500 border-b bg-slate-50 dark:bg-slate-900 dark:text-slate-400">
