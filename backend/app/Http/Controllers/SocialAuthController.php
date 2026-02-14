@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\User;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -31,6 +32,8 @@ class SocialAuthController extends Controller
                 'avatar'    => $googleUser->getAvatar(),
                 'password'  => null,
             ]);
+
+            Category::createDefaults($user);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;

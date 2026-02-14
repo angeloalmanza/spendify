@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -22,6 +23,8 @@ class AuthController extends Controller
             'email' => $validated['email'],
             'password' => $validated['password'],
         ]);
+
+        Category::createDefaults($user);
 
         $token = $user->createToken('auth_token')->plainTextToken;
 

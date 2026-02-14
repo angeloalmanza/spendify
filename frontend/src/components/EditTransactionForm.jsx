@@ -2,12 +2,11 @@ import { useState, useEffect, useRef } from "react";
 import { Save } from "lucide-react";
 import toast from "react-hot-toast";
 
-const categories = ["Cibo", "Affitto", "Svago", "Stipendio", "Altro"];
-
 const EditTransactionForm = ({
   editingTransaction,
   updateTransaction,
   onClose,
+  categories,
 }) => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");

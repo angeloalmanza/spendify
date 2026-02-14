@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialAuthController;
@@ -26,3 +27,8 @@ Route::middleware('auth:sanctum')->put('/profile', [ProfileController::class, 'u
 Route::middleware('auth:sanctum')->get('/budgets', [BudgetController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/budgets', [BudgetController::class, 'store']);
 Route::middleware('auth:sanctum')->delete('/budgets/{budget}', [BudgetController::class, 'destroy']);
+
+Route::middleware('auth:sanctum')->get('/categories', [CategoryController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/categories', [CategoryController::class, 'store']);
+Route::middleware('auth:sanctum')->put('/categories/{category}', [CategoryController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('/categories/{category}', [CategoryController::class, 'destroy']);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useTransactions from "./hook/useTransactions";
+import useCategories from "./hook/useCategories";
 import { useAuthContext } from "./context/AuthContext";
 import BalanceCard from "./components/BalanceCard";
 import TransactionForm from "./components/TransactionForm";
@@ -12,6 +13,7 @@ import InsightsPanel from "./components/InsightsPanel";
 import ConfirmModal from "./components/ConfirmModal";
 import EditModal from "./components/EditModal";
 import EditTransactionForm from "./components/EditTransactionForm";
+import CategoryManager from "./components/CategoryManager";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 
@@ -39,6 +41,8 @@ const App = () => {
   const [loggingOut, setLoggingOut] = useState(false);
   const { transactions, addTransaction, updateTransaction, removeTransaction } =
     useTransactions();
+  const { categories, addCategory, updateCategory, removeCategory } = useCategories();
+  const categoryNames = categories.map((c) => c.name).sort();
 
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
@@ -270,7 +274,7 @@ const App = () => {
 
         <BalanceCard transactions={filteredTransactions} />
         <TransactionsChart transactions={filteredTransactions} />
-        <InsightsPanel transactions={transactions} />
+        <InsightsPanel transactions={transactions} categories={categoryNames} />
 
         <div className="glass-card rounded-2xl p-4 mb-6">
           <div className="flex flex-col gap-4">
@@ -301,7 +305,15 @@ const App = () => {
           </div>
         </div>
 
+        <CategoryManager
+          categories={categories}
+          addCategory={addCategory}
+          updateCategory={updateCategory}
+          removeCategory={removeCategory}
+        />
+
         <TransactionForm
+          categories={categoryNames}
           addTransaction={async (transaction) => {
             const saved = await addTransaction(transaction);
             setHighlightedId(saved.id);
@@ -310,6 +322,7 @@ const App = () => {
 
         <EditModal isOpen={isEditModalOpen} onClose={closeEditModal}>
           <EditTransactionForm
+            categories={categoryNames}
             editingTransaction={editingTransaction}
             updateTransaction={async (updated) => {
               const saved = await updateTransaction(updated);
@@ -327,6 +340,7 @@ const App = () => {
           openDeleteModal={openDeleteModal}
           onEdit={openEditModal}
           highlightedId={highlightedId}
+          categories={categories}
         />
 
         <ConfirmModal

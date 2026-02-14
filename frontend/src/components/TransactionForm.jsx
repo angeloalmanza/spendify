@@ -2,13 +2,11 @@ import { useState } from "react";
 import { PlusCircle } from "lucide-react";
 import toast from "react-hot-toast";
 
-const categories = ["Cibo", "Affitto", "Svago", "Stipendio", "Altro"];
-
-const TransactionForm = ({ addTransaction }) => {
+const TransactionForm = ({ addTransaction, categories }) => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("income");
-  const [category, setCategory] = useState("Cibo");
+  const [category, setCategory] = useState(categories[0] || "");
   const [date, setDate] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -31,7 +29,7 @@ const TransactionForm = ({ addTransaction }) => {
       setName("");
       setAmount("");
       setType("income");
-      setCategory("Cibo");
+      setCategory(categories[0] || "");
       setDate("");
     } catch {
       toast.error("Errore durante il salvataggio");

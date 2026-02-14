@@ -1,14 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Edit3, GripVertical, Trash2 } from "lucide-react";
 
-const categoryColors = {
-  Cibo: "bg-yellow-100 text-yellow-800",
-  Affitto: "bg-blue-100 text-blue-800",
-  Svago: "bg-pink-100 text-pink-800",
-  Stipendio: "bg-emerald-100 text-emerald-800",
-  Altro: "bg-slate-100 text-slate-700",
-};
-
 const TransactionList = ({
   transactions,
   onSort,
@@ -17,6 +9,7 @@ const TransactionList = ({
   openDeleteModal,
   onEdit,
   highlightedId,
+  categories,
 }) => {
   const [orderedTransactions, setOrderedTransactions] = useState(transactions);
   const [draggingId, setDraggingId] = useState(null);
@@ -188,13 +181,19 @@ const TransactionList = ({
                   {t.date ? new Date(t.date).toLocaleDateString("it-IT") : "-"}
                 </td>
                 <td className="p-3">
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      categoryColors[t.category] || categoryColors.Altro
-                    }`}
-                  >
-                    {t.category || "Altro"}
-                  </span>
+                  {(() => {
+                    const catName = t.category || "Altro";
+                    const catObj = categories.find(c => c.name === catName);
+                    const hex = catObj?.color || "#64748b";
+                    return (
+                      <span
+                        className="px-2 py-1 rounded-full text-xs font-medium"
+                        style={{ backgroundColor: hex + "20", color: hex }}
+                      >
+                        {catName}
+                      </span>
+                    );
+                  })()}
                 </td>
                 <td
                   className={`p-3 text-right font-semibold tabular-nums ${

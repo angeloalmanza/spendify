@@ -2,8 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import client from "../api/client";
 
-const categories = ["Cibo", "Affitto", "Svago", "Altro"];
-
 const currencyFormatter = new Intl.NumberFormat("it-IT", {
   style: "currency",
   currency: "EUR",
@@ -24,7 +22,8 @@ const getMonthKey = (date) =>
 const getPreviousMonthDate = (date) =>
   new Date(date.getFullYear(), date.getMonth() - 1, 1);
 
-const InsightsPanel = ({ transactions }) => {
+const InsightsPanel = ({ transactions, categories }) => {
+  const budgetCategories = categories.filter((c) => c !== "Stipendio");
   const [budgets, setBudgets] = useState({});
   const [dismissedAlerts, setDismissedAlerts] = useState(new Set());
 
@@ -96,7 +95,7 @@ const InsightsPanel = ({ transactions }) => {
     (a, b) => b[1] - a[1],
   )[0];
 
-  const exceededCategories = categories.filter((category) => {
+  const exceededCategories = budgetCategories.filter((category) => {
     const budgetValue = Number(budgets[category] || 0);
     const spent = Number(currentMonth.perCategory[category] || 0);
     return budgetValue > 0 && spent > budgetValue && !dismissedAlerts.has(category);
@@ -229,7 +228,7 @@ const InsightsPanel = ({ transactions }) => {
               </div>
             )}
             <div className="flex flex-col gap-3">
-              {categories.map((category) => {
+              {budgetCategories.map((category) => {
                 const budgetValue = Number(budgets[category] || 0);
                 const spent = Number(currentMonth.perCategory[category] || 0);
                 const progress =
