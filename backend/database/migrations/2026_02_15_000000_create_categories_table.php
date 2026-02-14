@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -19,7 +19,19 @@ return new class extends Migration
             $table->unique(['user_id', 'name']);
         });
 
-        User::each(fn (User $user) => Category::createDefaults($user));
+        $names = ['Cibo', 'Affitto', 'Svago', 'Stipendio', 'Altro'];
+        $now = now();
+
+        User::each(function (User $user) use ($names, $now) {
+            foreach ($names as $name) {
+                DB::table('categories')->insert([
+                    'user_id' => $user->id,
+                    'name' => $name,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ]);
+            }
+        });
     }
 
     public function down(): void
