@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
+import client from "../api/client";
 
 const categories = ["Cibo", "Affitto", "Svago", "Altro"];
 
@@ -24,17 +25,16 @@ const getPreviousMonthDate = (date) =>
   new Date(date.getFullYear(), date.getMonth() - 1, 1);
 
 const InsightsPanel = ({ transactions }) => {
-  const [budgets, setBudgets] = useState(() => {
-    const saved = localStorage.getItem("budgets");
-    if (!saved) return {};
-    try { return JSON.parse(saved); } catch { return {}; }
-  });
-
+  const [budgets, setBudgets] = useState({});
   const [dismissedAlerts, setDismissedAlerts] = useState(new Set());
 
   useEffect(() => {
-    localStorage.setItem("budgets", JSON.stringify(budgets));
-  }, [budgets]);
+    client.get("/api/budgets").then(({ data }) => {
+      const map = {};
+      data.forEach((b) => { map[b.category] = b.amount; });
+      setBudgets(map);
+    }).catch(() => {});
+  }, []);
 
   const today = new Date();
   const currentMonthKey = getMonthKey(today);
@@ -105,6 +105,8 @@ const InsightsPanel = ({ transactions }) => {
   const confirmBudget = (category) => {
     const value = Number(budgets[category] || 0);
     const spent = Number(currentMonth.perCategory[category] || 0);
+
+    client.post("/api/budgets", { category, amount: value }).catch(() => {});
 
     setDismissedAlerts((prev) => {
       const next = new Set(prev);

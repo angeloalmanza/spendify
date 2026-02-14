@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialAuthController;
@@ -21,3 +22,6 @@ Route::middleware('auth:sanctum')->apiResource('transactions', TransactionContro
 ]);
 
 Route::middleware('auth:sanctum')->put('/profile', [ProfileController::class, 'update']);
+
+Route::middleware('auth:sanctum')->get('/budgets', [BudgetController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/budgets', [BudgetController::class, 'store']);
