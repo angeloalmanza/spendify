@@ -36,6 +36,8 @@ const buildCsv = (rows) => {
   return csvRows.join("\n");
 };
 
+const PAGE_SIZE = 10;
+
 const App = () => {
   const { user, logout } = useAuthContext();
   const [loggingOut, setLoggingOut] = useState(false);
@@ -47,6 +49,7 @@ const App = () => {
   const [filter, setFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [editingTransaction, setEditingTransaction] = useState(null);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -155,6 +158,16 @@ const App = () => {
 
     return sortDirection === "asc" ? valueA - valueB : valueB - valueA;
   });
+
+  const totalPages = Math.ceil(sortedTransactions.length / PAGE_SIZE) || 1;
+  const paginatedTransactions = sortedTransactions.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE,
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filter, categoryFilter, search, startDate, endDate, sortField, sortDirection]);
 
   const openDeleteModal = (id) => {
     setTransactionToDelete(id);
@@ -334,7 +347,7 @@ const App = () => {
         </EditModal>
 
         <TransactionList
-          transactions={sortedTransactions}
+          transactions={paginatedTransactions}
           onSort={handleSort}
           sortField={sortField}
           sortDirection={sortDirection}
@@ -342,6 +355,10 @@ const App = () => {
           onEdit={openEditModal}
           highlightedId={highlightedId}
           categories={categories}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          totalCount={sortedTransactions.length}
         />
 
         <ConfirmModal

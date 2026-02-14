@@ -10,6 +10,10 @@ const TransactionList = ({
   onEdit,
   highlightedId,
   categories,
+  currentPage,
+  totalPages,
+  onPageChange,
+  totalCount,
 }) => {
   const [orderedTransactions, setOrderedTransactions] = useState(transactions);
   const [draggingId, setDraggingId] = useState(null);
@@ -78,7 +82,7 @@ const TransactionList = ({
 
   return (
     <div className="glass-card rounded-2xl overflow-hidden">
-      <div className="max-h-105 overflow-auto">
+      <div>
         <table className="w-full border-collapse text-sm">
           <thead>
             <tr className="text-left text-slate-500 border-b bg-slate-50 dark:bg-slate-900 dark:text-slate-400">
@@ -222,6 +226,29 @@ const TransactionList = ({
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="flex items-center justify-between px-4 py-3 border-t border-slate-200 dark:border-slate-800 text-sm text-slate-500 dark:text-slate-400">
+        <span>{totalCount} transazioni totali</span>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => onPageChange(currentPage - 1)}
+            disabled={currentPage <= 1}
+            className="px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+          >
+            &laquo; Prec
+          </button>
+          <span className="text-slate-700 dark:text-slate-300">
+            Pagina {currentPage} di {totalPages}
+          </span>
+          <button
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={currentPage >= totalPages}
+            className="px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+          >
+            Succ &raquo;
+          </button>
+        </div>
       </div>
     </div>
   );
