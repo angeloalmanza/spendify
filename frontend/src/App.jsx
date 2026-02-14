@@ -278,7 +278,7 @@ const App = () => {
         <TransactionsChart transactions={filteredTransactions} />
         <InsightsPanel transactions={transactions} categories={categoryNames} />
 
-        <div className="glass-card rounded-2xl p-4 mb-6">
+        <div className="glass-card rounded-2xl p-4 md:p-5 mb-6">
           <div className="flex flex-col gap-4">
             <div>
               <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
@@ -288,25 +288,21 @@ const App = () => {
                 Affina per tipo, data o categoria
               </p>
             </div>
-            <div className="flex flex-col lg:flex-row lg:items-end gap-4">
-              <div className="lg:w-64">
-                <SearchBar search={search} setSearch={setSearch} />
-              </div>
-              <FilterBar
-                filter={filter}
-                setFilter={setFilter}
-                categoryFilter={categoryFilter}
-                setCategoryFilter={setCategoryFilter}
-                categories={categoryNames}
-                startDate={startDate}
-                endDate={endDate}
-                setStartDate={setStartDate}
-                setEndDate={setEndDate}
-                setSortField={setSortField}
-                setSortDirection={setSortDirection}
-                setSearch={setSearch}
-              />
-            </div>
+            <SearchBar search={search} setSearch={setSearch} />
+            <FilterBar
+              filter={filter}
+              setFilter={setFilter}
+              categoryFilter={categoryFilter}
+              setCategoryFilter={setCategoryFilter}
+              categories={categoryNames}
+              startDate={startDate}
+              endDate={endDate}
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+              setSortField={setSortField}
+              setSortDirection={setSortDirection}
+              setSearch={setSearch}
+            />
           </div>
         </div>
 
