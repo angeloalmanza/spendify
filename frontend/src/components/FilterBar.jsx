@@ -3,6 +3,9 @@ import { X } from "lucide-react";
 const FilterBar = ({
   filter,
   setFilter,
+  categoryFilter,
+  setCategoryFilter,
+  categories,
   startDate,
   endDate,
   setStartDate,
@@ -14,6 +17,7 @@ const FilterBar = ({
   const resetFilters = () => {
     setSearch("");
     setFilter("all");
+    setCategoryFilter("all");
     setStartDate("");
     setEndDate("");
     setSortField("date");
@@ -53,6 +57,20 @@ const FilterBar = ({
       >
         Uscite
       </button>
+
+      {/* Filtro categoria */}
+      <select
+        value={categoryFilter}
+        onChange={(e) => setCategoryFilter(e.target.value)}
+        className="h-10 border border-slate-200 rounded-lg px-3 text-sm text-slate-700 bg-white cursor-pointer dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+      >
+        <option value="all">Tutte le categorie</option>
+        {categories.map((cat) => (
+          <option key={cat} value={cat}>
+            {cat}
+          </option>
+        ))}
+      </select>
 
       {/* Filtri data */}
       <input

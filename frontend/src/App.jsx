@@ -45,6 +45,7 @@ const App = () => {
   const categoryNames = categories.map((c) => c.name).sort();
 
   const [filter, setFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
   const [search, setSearch] = useState("");
   const [editingTransaction, setEditingTransaction] = useState(null);
 
@@ -132,6 +133,7 @@ const App = () => {
 
   const filteredTransactions = transactions
     .filter((t) => (filter === "all" ? true : t.type === filter))
+    .filter((t) => (categoryFilter === "all" ? true : t.category === categoryFilter))
     .filter((t) => t.name.toLowerCase().includes(search.toLowerCase()))
     .filter((t) => {
       if (startDate && t.date < startDate) return false;
@@ -293,6 +295,9 @@ const App = () => {
               <FilterBar
                 filter={filter}
                 setFilter={setFilter}
+                categoryFilter={categoryFilter}
+                setCategoryFilter={setCategoryFilter}
+                categories={categoryNames}
                 startDate={startDate}
                 endDate={endDate}
                 setStartDate={setStartDate}
